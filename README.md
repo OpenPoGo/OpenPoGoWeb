@@ -7,7 +7,7 @@ You can either download this as a zip and place it in the ``web/`` folder of PoG
 If you are using git use the following commands to clone this project into the ``web/`` folder of OpenPoGoBot:  
 ```
 $ cd OpenPoGoBot  
-$ git clone git@github.com:OpenPoGo/OpenPoGoWeb.git  
+$ git clone git@github.com:OpenPoGo/OpenPoGoWeb.git web
 $ cd web  
 $ cp userdata.js.example userdata.js
 ```  
