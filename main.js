@@ -444,8 +444,9 @@ function buildMenu() {
       out += '<div id="tabB' +
                 users[i] +
                 '" class="col s12 items"><h5>' + users[i] + '</h5>';
+      out += '<table>';
       for (x = 0; x < bagItems[users[i]].length; x++) {
-        out += '<table><tr><td><img src="image/items/' +
+        out += '<tr><td><img src="image/items/' +
                 bagItems[users[i]][x].inventory_item_data.item.item_id +
                 '.png" class="item_img"></td><td>Item: ' +
                 itemsArray[bagItems[users[i]][x].inventory_item_data.item.item_id] +
@@ -488,7 +489,7 @@ function buildMenu() {
           pkmnMove1 = '';
           pkmnMove2 = '';
           ivList = '<td></td>';
-          pokeballUsed + '<td></td>';
+          pokeballUsed = '<td></td>';
         } else {
           pkmnNum = bagPokemon[users[i]][x].inventory_item_data.pokemon_data.pokemon_id;
           pkmnImage = pad_with_zeroes(bagPokemon[users[i]][x].inventory_item_data.pokemon_data.pokemon_id, 3) + '.png';
