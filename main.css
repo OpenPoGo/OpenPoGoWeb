@@ -101,3 +101,9 @@ html, body {
     text-align: center;
     margin-right: 1rem;
 }
+
+.bot-name {
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+}
