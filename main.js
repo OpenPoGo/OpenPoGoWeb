@@ -554,7 +554,7 @@ function buildMenu() {
                 '<br>Times Encountered: ' +
                 pokedex[users[i]][x].inventory_item_data.pokedex_entry.times_encountered + 
                 '<br>Times Caught: ' +
-                pokedex[users[i]][x].inventory_item_data.pokedex_entry.times_captured +
+                (pokedex[users[i]][x].inventory_item_data.pokedex_entry.times_captured || 0) +
                 '</td></tr>';
       }
       out += '</table></div>';
