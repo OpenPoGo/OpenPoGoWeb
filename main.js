@@ -65,6 +65,157 @@ var itemsArray = {
   '1001': 'Pokemon Storage Upgrade',
   '1002': 'Item Storage Upgrade'
 };
+var familyArray = {
+	'UNSET' : 0,
+	'BULBASAUR' : 1,
+	'IVYSAUR' : 1,
+	'VENUSAUR' : 1,
+	'CHARMANDER' : 4,
+	'CHARMELEON' : 4,
+	'CHARIZARD' : 4,
+	'SQUIRTLE' : 7,
+	'WARTORTLE' : 7,
+	'BLASTOISE' : 7,
+	'CATERPIE' : 10,
+	'METAPOD' : 10,
+	'BUTTERFREE' : 10,
+	'WEEDLE' : 13,
+	'KAKUNA' : 13,
+	'BEEDRILL' : 13,
+	'PIDGEY' : 16,
+	'PIDGEOTTO' : 16,
+	'PIDGEOT' : 16,
+	'RATTATA' : 19,
+	'RATICATE' : 19,
+	'SPEAROW' : 21,
+	'FEAROW' : 21,
+	'EKANS' : 23,
+	'ARBOK' : 23,
+	'PIKACHU' : 25,
+	'RAICHU' : 25,
+	'SANDSHREW' : 27,
+	'SANDSLASH' : 27,
+	'NIDORAN F' : 29,
+	'NIDORINA' : 29,
+	'NIDOQUEEN': 29,
+	'NIDORAN M' : 32,
+	'NIDORINO' : 32,
+	'NIDOKING' : 32,
+	'CLEFAIRY' : 35,
+	'CLEFABLE' : 35,
+	'VULPIX' : 37,
+	'NINETALES' : 37,
+	'JIGGLYPUFF' : 39,
+	'WIGGLYTUFF' : 39,
+	'ZUBAT' : 41,
+	'GOLBAT' : 41,
+	'ODDISH' : 43,
+	'GLOOM' : 43,
+	'VILEPLUME' : 43,
+	'PARAS' : 46,
+	'PARASECT' : 46,
+	'VENONAT' : 48,
+	'VENOMOTH'  : 48,
+	'DIGLETT' : 50,
+	'DUGTRIO' : 50,
+	'MEOWTH' : 52,
+	'PERSIAN' : 52,
+	'PSYDUCK' : 54,
+	'GOLDUCK' : 54,
+	'MANKEY' : 56,
+	'PRIMEAPE' : 56,
+	'GROWLITHE' : 58,
+	'ARCANINE' : 58,
+	'POLIWAG' : 60,
+	'POLIWHIRL' : 60,
+	'POLIWRATH' : 60,
+	'ABRA' : 63,
+	'KADABRA' : 63,
+	'ALAKAZAM' : 63,
+	'MACHOP' : 66,
+	'MACHOKE' : 66,
+	'BELLSPROUT' : 69,
+	'WEEPINBELL' : 69,
+	'VICTREEBELL' : 69,
+	'TENTACOOL' : 72,
+	'TENTACRUEL' : 72,
+	'GEODUDE' : 74,
+	'GRAVELER' : 74,
+	'GOLEM' : 74,
+	'PONYTA' : 77,
+	'RAPIDASH' : 77,
+	'SLOWPOKE' : 79,
+	'SLOWBRO' : 79,
+	'MAGNEMITE' : 81,
+	'MAGNETON' : 81,
+	'FARFETCHD' : 83,
+	'DODUO' : 84,
+	'DODRIO' : 84,
+	'SEEL' : 86,
+	'DEWGONG' : 86,
+	'GRIMER' : 88,
+	'MUK' : 88,
+	'SHELLDER' : 90,
+	'CLOYSTER' : 90,
+	'GASTLY' : 92,
+	'HAUNTER' : 92,
+	'GENGAR' : 92,
+	'ONIX' : 95,
+	'DROWZEE' : 96,
+	'HYPNO' : 96,
+	'KRABBY' : 98,
+	'KINGLER' : 98,
+	'VOLTORB' : 100,
+	'ELECTRODE' : 100,
+	'EXEGGCUTE' : 102,
+	'EXEGGUTOR' : 102,
+	'CUBONE' : 104,
+	'MAROWAK' : 104,
+	'HITMONLEE' : 106,
+	'HITMONCHAN' : 107,
+	'LICKITUNG' : 108,
+	'KOFFING' : 109,
+	'WEEZING' : 109,
+	'RHYHORN' : 111,
+	'RHYDON' : 111,
+	'CHANSEY' : 113,
+	'TANGELA' : 114,
+	'KANGASKHAN' : 115,
+	'HORSEA' : 116,
+	'SEADRA' : 116,
+	'GOLDEEN' : 118,
+	'SEAKING' : 118,
+	'STARYU' : 120,
+	'STARMIE' : 120,
+	'MR_MIME' : 122,
+	'SCYTHER' : 123,
+	'JYNX' : 124,
+	'ELECTABUZZ' : 125,
+	'MAGMAR' : 126,
+	'PINSIR' : 127,
+	'TAUROS' : 128,
+	'MAGIKARP' : 129,
+	'GYARDOS' : 129,
+	'LAPRAS' : 131,
+	'DITTO' : 132,
+	'EEVEE' : 133,
+	'VAPOREON' : 133,
+	'JOLTEON' : 133,
+	'FLAREON' : 133,
+	'PORYGON' : 137,
+	'OMANYTE' : 138,
+	'OMASTAR' : 138,
+	'KABUTO' : 140,
+	'KABUTOPS' : 140,
+	'AERODACTYL' : 142,
+	'SNORLAX' : 143,
+	'ARTICUNO' : 144,
+	'ZAPDOS' : 145,
+	'MOLTRES' : 146,
+	'DRATINI' : 147,
+	'MEWTWO' : 150,
+	'MEW' : 151
+};
 
 $(document).ready(function() {
   loadScript("https://maps.googleapis.com/maps/api/js?key=" + gMapsAPIKey + "&libraries=drawing&callback=initMap");
@@ -436,16 +587,25 @@ function buildMenu() {
           ' Pokemon</h5><table>';
     for (i = 0; i < bagPokemon.length; i++) {
       if (bagPokemon[i].inventory_item_data.pokemon_data.is_egg) {
-        pkmnNum = "???";
+        pkmnNum = "";
         pkmnImage = "Egg.png";
         pkmnName = "Egg";
+        pkmnCandy = "";
       } else {
         pkmnNum = bagPokemon[i].inventory_item_data.pokemon_data.pokemon_id;
+        pkmnNum = '<br>Number: ' + pkmnNum;
         pkmnImage = pad_with_zeroes(bagPokemon[i].inventory_item_data.pokemon_data.pokemon_id, 3) + '.png';
         pkmnName = pokemonArray[pkmnNum-1].Name;
+        try {
+          pkmnCandy = bagCandy[familyArray[pkmnName.toUpperCase()].toString()] || "?"; //only added candy because other PRs have IV and CP and sorting
+	    	}
+	    	catch(err) {
+	    		pkmnCandy = "?"
+	    	}
+	    	pkmnCandy = '<br>Candy: ' + pkmnCandy
       }
-      out += '<tr><td><img src="image/pokemon/' + pkmnImage + '" class="png_img"></td><td class="left-align">Name: ' + pkmnName +
-      '<br>Number: ' + pkmnNum + '</td></tr>';
+      out += '<tr><td><img src="image/pokemon/' + pkmnImage + '" class="png_img"></td><td class="left-align">Name: ' + pkmnName + pkmnNum + pkmnCandy
+      '</td></tr>';
     }
     out += '</table></div></div>';
     document.getElementById('subcontent').innerHTML = out;
