@@ -50,3 +50,7 @@ html, body {
 #trainerList {
 	display: none;
 }
+.collapsible-body {
+	background: #FFF;
+	padding: 1em;
+}
