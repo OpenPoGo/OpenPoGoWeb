@@ -13,7 +13,7 @@ var forts = [];
 var info_windows = [];
 var outArray = [];
 var numTrainers = [
-  177, 
+  177,
   109
 ];
 var teams = [
@@ -185,17 +185,40 @@ var trainerFunc = function(data, user_index) {
               icon: 'image/forts/' + teams[(fort.owned_by_team || 0)] + '.png'
             });
           }
+          fortName = '';
           fortPoints = '';
           fortTeam = '';
           fortType = 'PokeStop';
           pokemonGuard = '';
+          fortMembers = '';
           if (fort.guard_pokemon_id != undefined) {
             fortPoints = 'Points: ' + fort.gym_points;
             fortTeam = 'Team: ' + teams[fort.owned_by_team] + '<br>';
             fortType = 'Gym';
             pokemonGuard = 'Guard Pokemon: ' + (pokemonArray[fort.guard_pokemon_id-1].Name || "None") + '<br>';
+            if(fort.gym_details.result == 1) {
+              fortName = fort.gym_details.name;
+              fortMembers = '<table style="text-align: center"><tr><th>Pokemon</th><th>CP</th><th>Owner</th><th>Level</th></tr>'
+              for (var m = 0; m < fort.gym_details.gym_state.memberships.length; m++) {
+                var member = fort.gym_details.gym_state.memberships[m];
+                fortMembers += '<tr>';
+                fortMembers += '<th>' + pokemonArray[member.pokemon_data.pokemon_id-1].Name+'</th>';
+                fortMembers += '<th>' + member.pokemon_data.cp + '</th>';
+                fortMembers += '<th>' + member.trainer_public_profile.name + '</th>';
+                fortMembers += '<th>' + member.trainer_public_profile.level + '</th>';
+                fortMembers += '</tr>';
+              }
+              fortMembers += '</table>';
+            }
           }
-          var contentString = 'Id: ' + fort.id + '<br>Type: ' + fortType + '<br>' + pokemonGuard + fortPoints;
+          var contentString = 'Id: ' + fort.id
+          if(fortName != '') {
+            contentString += '<br>Name: ' + fortName;
+          }
+          contentString += '<br>Type: ' + fortType + '<br>' + pokemonGuard + fortPoints;
+          if(fortMembers != '') {
+            contentString += '<br>'+ fortMembers;
+           }
           info_windows[fort.id] = new google.maps.InfoWindow({
             content: contentString
           });
@@ -216,7 +239,7 @@ var trainerFunc = function(data, user_index) {
     }
   } else {
     pathcoords[users[user_index]].push({lat: parseFloat(data.lat), lng: parseFloat(data.lng)})
-  }  
+  }
   if (user_data[users[user_index]].hasOwnProperty('marker') === false) {
     buildTrainerList();
     addInventory();
@@ -514,7 +537,7 @@ function buildMenu(user_id, menu) {
               '<br>Kilometers Walked: ' +
               (parseFloat(current_user_stats.km_walked).toFixed(2) || 0) +
               '</div></div>';
-    
+
     document.getElementById('subcontent').innerHTML = out;
   }
   if (menu == 2) {
@@ -723,7 +746,7 @@ function sortAndShowPokedex(sortOn, user_id) {
             ' ' +
             pkmnName +
             '</b><br>Times Seen: ' +
-            pkmnEnc + 
+            pkmnEnc +
             '<br>Times Caught: ' +
             pkmnCap +
             '<br>Candy: ' +
