@@ -158,6 +158,9 @@ var trainerFunc = function(data, user_index) {
               icon: 'image/forts/img_pokestop.png'
             });
           } else {
+            if (teams[fort.owned_by_team] == undefined) {
+              continue; 
+            }
             forts[fort.id] = new google.maps.Marker({
               map: map,
               position: {
