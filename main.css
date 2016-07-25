@@ -106,3 +106,24 @@ html, body {
 	white-space: nowrap;
 	overflow: hidden;
 }
+#logs-panel {
+	display: none;
+	position: fixed;
+	height: 50vh;
+	width: 360px;
+	z-index: 5;
+	left: 10px;
+	bottom: 10px;
+}
+#logs-panel .card {
+	overflow-y: scroll;
+	height: 100%;
+	margin: 0;
+}
+.log-item {
+	padding: .3em 0 .3em 0;
+	font-size: 14px;
+}
+.log-date {
+	color: #666;
+}

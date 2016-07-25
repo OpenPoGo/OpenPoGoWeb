@@ -82,7 +82,7 @@ function loadScript(src) {
 }
 
 function initMap() {
-  Materialize.toast('Loading Data..', 3000);
+  log({message:'Loading Data..'});
   loadJSON('pokemondata.json', function(data, successData) {
     pokemonArray = data;
   }, errorFunc, 'pokemonData');
@@ -106,7 +106,7 @@ function initMap() {
   document.getElementById('strokeOn').checked = false;
   placeTrainer();
   addCatchable();
-  Materialize.toast('Data Loaded!', 3000);
+  log({message:'Data Loaded!'});
   setInterval(updateTrainer, 1000);
   setInterval(addCatchable, 1000);
 }
@@ -149,6 +149,10 @@ $('#strokeOn').change(function(){
 
 $('#optionsButton').click(function(){
     $('#optionsList').toggle();
+});
+
+$('#logs-button').click(function(){
+  $('#logs-panel').toggle();
 });
 
 var errorFunc = function(xhr) {
@@ -224,7 +228,7 @@ var trainerFunc = function(data, user_index) {
   if (user_data[users[user_index]].hasOwnProperty('marker') === false) {
     buildTrainerList();
     addInventory();
-    Materialize.toast('New Marker: Trainer - ' + users[user_index], 3000);
+    log({message: "Trainer loaded: " +users[user_index], color: "blue-text"});
     randomSex = Math.floor(Math.random() * 1);
     user_data[users[user_index]].marker = new google.maps.Marker({
       map: map,
@@ -278,7 +282,7 @@ var catchSuccess = function(data, user_index) {
     if (data.latitude !== undefined) {
       if (user_data[users[user_index]].catchables.hasOwnProperty(data.spawnpoint_id) === false) {
         poke_name = pokemonArray[data.pokemon_id-1].Name;
-        Materialize.toast(poke_name + ' appeared near trainer: ' + users[user_index], 3000);
+        log({message: poke_name+" appeared near trainder: " +users[user_index], color: "green-text"});
         user_data[users[user_index]].catchables[data.spawnpoint_id] = new google.maps.Marker({
           map: map,
           position: {lat: parseFloat(data.latitude), lng: parseFloat(data.longitude)},
@@ -305,7 +309,7 @@ var catchSuccess = function(data, user_index) {
     }
   } else {
     if (user_data[users[user_index]].catchables !== undefined && Object.keys(user_data[users[user_index]].catchables).length > 0) {
-      Materialize.toast('The Pokemon has been caught or fled '  + users[user_index], 3000);
+      log({message: "The Pokemon has been caught or fled " +users[user_index]});
       for (var key in user_data[users[user_index]].catchables) {
         user_data[users[user_index]].catchables[key].setMap(null);
       }
@@ -736,4 +740,16 @@ function sortAndShowPokedex(sortOn, user_id) {
   }
   out += '</div>';
   document.getElementById('subcontent').innerHTML = out;
+}
+
+// Adds events to log panel and if it's closed sends Toast
+function log( log_object ){
+  var currentDate = new Date();
+  var time = ('0' + currentDate.getHours()).slice(-2) + ':'
+             + ('0' + (currentDate.getMinutes())).slice(-2);
+  $("#logs-panel .card-content").append("<div class='log-item'>\
+  <span class='log-date'>"+time+"</span><p class='"+log_object.color+"'>"+log_object.message+"</p></div>");
+  if(!$('#logs-panel').is(":visible")){
+    Materialize.toast(log_object.message, 3000);
+  }
 }
