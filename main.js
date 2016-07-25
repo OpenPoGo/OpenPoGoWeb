@@ -378,19 +378,26 @@ $(document).ready(function(){
 });
 
 // Bots list and menus
-var submenuIndex = 0
-$('body').on('click', ".bot-user .bot-items .btn", function() {
-    var itemIndex = $(this).parent().parent().find('.btn').index($(this)) + 1;
-    if ($('#submenu').is(':visible') && itemIndex == submenuIndex) {
+var submenuIndex = 0,
+    currentUserId;
+$('body').on('click', ".bot-user .bot-items .btn:not(.tFind)", function() {
+    var itemIndex = $(this).parent().parent().find('.btn').index($(this)) + 1
+        userId = $(this).closest('ul').data('user-id');
+    if ($('#submenu').is(':visible') && itemIndex == submenuIndex && currentUserId == userId) {
         $('#submenu').toggle();
     } else {
         submenuIndex = itemIndex;
-        buildMenu($(this).closest("ul").data("user-id"), itemIndex);
+        currentUserId = userId;
+        buildMenu(userId, itemIndex);
     }
 });
 
 $('body').on('click','#close',function(){
   $('#submenu').toggle();
+});
+
+$('body').on('click', '.tFind', function(){
+  findBot($(this).closest('ul').data('user-id'));
 });
 
 function buildTrainerList() {
@@ -404,7 +411,7 @@ function buildTrainerList() {
            <li><a class="indigo waves-effect waves-light btn tItems">Items</a></li><br>\
            <li><a class="indigo waves-effect waves-light btn tPokemon">Pokemon</a></li><br>\
            <li><a class="indigo waves-effect waves-light btn tPokedex">Pokedex</a></li><br>\
-           <li><a class="indigo waves-effect waves-light btn tFind" onClick="findBot('+i+')">Find</a></li>\
+           <li><a class="indigo waves-effect waves-light btn tFind">Find</a></li>\
            </ul> \
            </div>\
            </li>';
