@@ -69,6 +69,264 @@ var itemsArray = {
   '1002': 'Item Storage Upgrade'
 };
 
+var POKEMON_IDS = {
+  MISSINGNO: 0,
+  BULBASAUR: 1,
+  IVYSAUR: 2,
+  VENUSAUR: 3,
+  CHARMENDER: 4,
+  CHARMELEON: 5,
+  CHARIZARD: 6,
+  SQUIRTLE: 7,
+  WARTORTLE: 8,
+  BLASTOISE: 9,
+  CATERPIE: 10,
+  METAPOD: 11,
+  BUTTERFREE: 12,
+  WEEDLE: 13,
+  KAKUNA: 14,
+  BEEDRILL: 15,
+  PIDGEY: 16,
+  PIDGEOTTO: 17,
+  PIDGEOT: 18,
+  RATTATA: 19,
+  RATICATE: 20,
+  SPEAROW: 21,
+  FEAROW: 22,
+  EKANS: 23,
+  ARBOK: 24,
+  PIKACHU: 25,
+  RAICHU: 26,
+  SANDSHREW: 27,
+  SANDLASH: 28,
+  NIDORAN_FEMALE: 29,
+  NIDORINA: 30,
+  NIDOQUEEN: 31,
+  NIDORAN_MALE: 32,
+  NIDORINO: 33,
+  NIDOKING: 34,
+  CLEFARY: 35,
+  CLEFABLE: 36,
+  VULPIX: 37,
+  NINETALES: 38,
+  JIGGLYPUFF: 39,
+  WIGGLYTUFF: 40,
+  ZUBAT: 41,
+  GOLBAT: 42,
+  ODDISH: 43,
+  GLOOM: 44,
+  VILEPLUME: 45,
+  PARAS: 46,
+  PARASECT: 47,
+  VENONAT: 48,
+  VENOMOTH: 49,
+  DIGLETT: 50,
+  DUGTRIO: 51,
+  MEOWTH: 52,
+  PERSIAN: 53,
+  PSYDUCK: 54,
+  GOLDUCK: 55,
+  MANKEY: 56,
+  PRIMEAPE: 57,
+  GROWLITHE: 58,
+  ARCANINE: 59,
+  POLIWAG: 60,
+  POLIWHIRL: 61,
+  POLIWRATH: 62,
+  ABRA: 63,
+  KADABRA: 64,
+  ALAKHAZAM: 65,
+  MACHOP: 66,
+  MACHOKE: 67,
+  MACHAMP: 68,
+  BELLSPROUT: 69,
+  WEEPINBELL: 70,
+  VICTREEBELL: 71,
+  TENTACOOL: 72,
+  TENTACRUEL: 73,
+  GEODUDE: 74,
+  GRAVELER: 75,
+  GOLEM: 76,
+  PONYTA: 77,
+  RAPIDASH: 78,
+  SLOWPOKE: 79,
+  SLOWBRO: 80,
+  MAGNEMITE: 81,
+  MAGNETON: 82,
+  FARFETCHD: 83,
+  DODUO: 84,
+  DODRIO: 85,
+  SEEL: 86,
+  DEWGONG: 87,
+  GRIMER: 88,
+  MUK: 89,
+  SHELLDER: 90,
+  CLOYSTER: 91,
+  GASTLY: 92,
+  HAUNTER: 93,
+  GENGAR: 94,
+  ONIX: 95,
+  DROWZEE: 96,
+  HYPNO: 97,
+  KRABBY: 98,
+  KINGLER: 99,
+  VOLTORB: 100,
+  ELECTRODE: 101,
+  EXEGGCUTE: 102,
+  EXEGGUTOR: 103,
+  CUBONE: 104,
+  MAROWAK: 105,
+  HITMONLEE: 106,
+  HITMONCHAN: 107,
+  LICKITUNG: 108,
+  KOFFING: 109,
+  WEEZING: 110,
+  RHYHORN: 111,
+  RHYDON: 112,
+  CHANSEY: 113,
+  TANGELA: 114,
+  KANGASKHAN: 115,
+  HORSEA: 116,
+  SEADRA: 117,
+  GOLDEEN: 118,
+  SEAKING: 119,
+  STARYU: 120,
+  STARMIE: 121,
+  MR_MIME: 122,
+  SCYTHER: 123,
+  JYNX: 124,
+  ELECTABUZZ: 125,
+  MAGMAR: 126,
+  PINSIR: 127,
+  TAUROS: 128,
+  MAGIKARP: 129,
+  GYARADOS: 130,
+  LAPRAS: 131,
+  DITTO: 132,
+  EEVEE: 133,
+  VAPOREON: 134,
+  JOLTEON: 135,
+  FLAREON: 136,
+  PORYGON: 137,
+  OMANYTE: 138,
+  OMASTAR: 139,
+  KABUTO: 140,
+  KABUTOPS: 141,
+  AERODACTYL: 142,
+  SNORLAX: 143,
+  ARTICUNO: 144,
+  ZAPDOS: 145,
+  MOLTRES: 146,
+  DRATINI: 147,
+  DRAGONAIR: 148,
+  DRAGONITE: 149,
+  MEWTWO: 150,
+  MEW: 151
+}
+
+var POKEMON_FAMILIES = {
+  FAMILY_UNSET: 0,
+  FAMILY_BULBASAUR: 1,
+  FAMILY_CHARMANDER: 4,
+  FAMILY_SQUIRTLE: 7,
+  FAMILY_CATERPIE: 10,
+  FAMILY_WEEDLE: 13,
+  FAMILY_PIDGEY: 16,
+  FAMILY_RATTATA: 19,
+  FAMILY_SPEAROW: 21,
+  FAMILY_EKANS: 23,
+  FAMILY_PIKACHU: 25,
+  FAMILY_SANDSHREW: 27,
+  FAMILY_NIDORAN_FEMALE: 29,
+  FAMILY_NIDORAN_MALE: 32,
+  FAMILY_CLEFAIRY: 35,
+  FAMILY_VULPIX: 37,
+  FAMILY_JIGGLYPUFF: 39,
+  FAMILY_ZUBAT: 41,
+  FAMILY_ODDISH: 43,
+  FAMILY_PARAS: 46,
+  FAMILY_VENONAT: 48,
+  FAMILY_DIGLETT: 50,
+  FAMILY_MEOWTH: 52,
+  FAMILY_PSYDUCK: 54,
+  FAMILY_MANKEY: 56,
+  FAMILY_GROWLITHE: 58,
+  FAMILY_POLIWAG: 60,
+  FAMILY_ABRA: 63,
+  FAMILY_MACHOP: 66,
+  FAMILY_BELLSPROUT: 69,
+  FAMILY_TENTACOOL: 72,
+  FAMILY_GEODUDE: 74,
+  FAMILY_PONYTA: 77,
+  FAMILY_SLOWPOKE: 79,
+  FAMILY_MAGNEMITE: 81,
+  FAMILY_FARFETCHD: 83,
+  FAMILY_DODUO: 84,
+  FAMILY_SEEL: 86,
+  FAMILY_GRIMER: 88,
+  FAMILY_SHELLDER: 90,
+  FAMILY_GASTLY: 92,
+  FAMILY_ONIX: 95,
+  FAMILY_DROWZEE: 96,
+  FAMILY_KRABBY: 98,
+  FAMILY_VOLTORB: 100,
+  FAMILY_EXEGGCUTE: 102,
+  FAMILY_CUBONE: 104,
+  FAMILY_HITMONLEE: 106,
+  FAMILY_HITMONCHAN: 107,
+  FAMILY_LICKITUNG: 108,
+  FAMILY_KOFFING: 109,
+  FAMILY_RHYHORN: 111,
+  FAMILY_CHANSEY: 113,
+  FAMILY_TANGELA: 114,
+  FAMILY_KANGASKHAN: 115,
+  FAMILY_HORSEA: 116,
+  FAMILY_GOLDEEN: 118,
+  FAMILY_STARYU: 120,
+  FAMILY_MR_MIME: 122,
+  FAMILY_SCYTHER: 123,
+  FAMILY_JYNX: 124,
+  FAMILY_ELECTABUZZ: 125,
+  FAMILY_MAGMAR: 126,
+  FAMILY_PINSIR: 127,
+  FAMILY_TAUROS: 128,
+  FAMILY_MAGIKARP: 129,
+  FAMILY_LAPRAS: 131,
+  FAMILY_DITTO: 132,
+  FAMILY_EEVEE: 133,
+  FAMILY_PORYGON: 137,
+  FAMILY_OMANYTE: 138,
+  FAMILY_KABUTO: 140,
+  FAMILY_AERODACTYL: 142,
+  FAMILY_SNORLAX: 143,
+  FAMILY_ARTICUNO: 144,
+  FAMILY_ZAPDOS: 145,
+  FAMILY_MOLTRES: 146,
+  FAMILY_DRATINI: 147,
+  FAMILY_MEWTWO: 150,
+  FAMILY_MEW: 151
+}
+
+function findNameForPokemon(pokemon_id) {
+  for (var name in POKEMON_IDS) {
+    if (POKEMON_IDS[name] === pokemon_id) {
+      return name;
+    }
+  }
+  return null;
+}
+
+function findFamilyIdForPokemon(pokemon_id) {
+  for (var i = 0; i < 4; i++) {
+    var name = findNameForPokemon(pokemon_id - i);
+    var family = 'FAMILY_' + name;
+    if (family in POKEMON_FAMILIES) {
+      return POKEMON_FAMILIES[family];
+    }
+  }
+  return pokemon_id;
+}
+
 $(document).ready(function() {
   loadScript("https://maps.googleapis.com/maps/api/js?key=" + gMapsAPIKey + "&libraries=drawing&callback=initMap");
 });
@@ -532,6 +790,18 @@ function buildMenu(user_id, menu) {
   }
 }
 
+function candyForPokemon(user_id, pokemon_id) {
+  var bagCandy = user_data[users[user_id]].bagCandy;
+  var pokemon_family = findFamilyIdForPokemon(pokemon_id);
+  for (var i = 0; i < bagCandy.length; i++) {
+    var data = bagCandy[i].inventory_item_data.pokemon_family;
+    if (data.family_id == pokemon_family) {
+      return data.candy;
+    }
+  }
+  return 0;
+}
+
 function sortAndShowBagPokemon(sortOn, user_id) {
 
   user_id = user_id || 0;
@@ -553,7 +823,7 @@ function sortAndShowBagPokemon(sortOn, user_id) {
       continue;
     }
 
-    pkmID =  user_data[users[user_id]].bagPokemon[i].inventory_item_data.pokemon_data.pokemon_id;
+    pkmID = user_data[users[user_id]].bagPokemon[i].inventory_item_data.pokemon_data.pokemon_id;
 
     pkmnName = pokemonArray[pkmID-1].Name;
 
@@ -563,12 +833,14 @@ function sortAndShowBagPokemon(sortOn, user_id) {
     pkmIVD = user_data[users[user_id]].bagPokemon[i].inventory_item_data.pokemon_data.individual_defense || 0;
     pkmIVS = user_data[users[user_id]].bagPokemon[i].inventory_item_data.pokemon_data.individual_stamina || 0;
     pkmIV = ((pkmIVA + pkmIVD + pkmIVS) / 45.0).toFixed(2);
+    pkmCandy = candyForPokemon(user_id, pkmID);
 
     sortedPokemon.push({
       "name": pkmnName,
       "id":pkmID,
       "cp": pkmCP,
-      "iv": pkmIV
+      "iv": pkmIV,
+      "candy": pkmCandy
     });
   }
 
@@ -608,9 +880,10 @@ function sortAndShowBagPokemon(sortOn, user_id) {
     pkmnName = pokemonArray[pkmnNum-1].Name;
     pkmnCP = sortedPokemon[i].cp;
     pkmnIV = sortedPokemon[i].iv;
+    pkmnCandy = sortedPokemon[i].candy;
 
     out += '<div class="col s12 m4 l3 center" style="float: left;"><img src="image/pokemon/' + pkmnImage + '" class="png_img"><br><b>' + pkmnName +
-        '</b><br>' + pkmnCP + '<br>IV '+pkmnIV+'</div>';
+        '</b><br>' + pkmnCP + '<br>IV '+pkmnIV+'<br>Candy '+pkmnCandy+'</div>';
   }
 
   // Add number of eggs
