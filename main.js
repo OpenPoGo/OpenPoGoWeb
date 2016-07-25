@@ -457,7 +457,7 @@ function buildMenu(user_id, menu) {
   }
   if (menu == 2) {
     var current_user_bag_items = user_data[users[user_id]].bagItems;
-    document.getElementById('subtitle').innerHTML = current_user_bag_items.length+" items in Bag";
+    document.getElementById('subtitle').innerHTML = current_user_bag_items.length+" item" + ( current_user_bag_items.length !== 1 ? "s" : "" ) + " in Bag";
 
     document.getElementById('sortButtons').innerHTML = "";
 
@@ -599,7 +599,7 @@ function sortAndShowBagPokemon(sortOn, user_id) {
             '</div>';
   }
   // Add number of eggs
-  out += '<div class="col s12 m4 l3 center" style="float: left;"><img src="image/pokemon/Egg.png" class="png_img"><br><b>You have ' + eggs + ' eggs</div>';
+  out += '<div class="col s12 m4 l3 center" style="float: left;"><img src="image/pokemon/Egg.png" class="png_img"><br><b>You have ' + eggs + ' egg' + ( eggs !== 1 ? "s" : "" ) + '</div>';
   out += '</div>';
   document.getElementById('subcontent').innerHTML = out;
 }
