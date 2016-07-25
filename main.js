@@ -36,6 +36,7 @@ var pokedex = {};
 var pokemonArray = {};
 var stats = {};
 var user_data = {};
+var pathcoords = {};
 var itemsArray = {
   '0': 'Unknown',
   '1': 'Pokeball',
@@ -87,6 +88,9 @@ function initMap() {
   for (var i = 0; i < users.length; i++) {
     user_data[users[i]] = {};
   }
+  for (var i = 0; i < users.length; i++) {
+    pathcoords[users[i]] = [];
+  }
   map = new google.maps.Map(document.getElementById('map'), {
     center: {lat: 50.0830986, lng: 6.7613762},
     zoom: 8
@@ -122,6 +126,18 @@ $('#imageType').change(function(){
       imageExt = '.gif';
     } else {
       imageExt = '.png';
+    }
+});
+
+$('#strokeOn').change(function(){
+    if (this.checked) {
+      for (var i = 0; i < users.length; i++) {
+        user_data[users[i]].trainerPath.setOptions({strokeOpacity: 1.0})
+      }
+    } else {
+      for (var i = 0; i < users.length; i++) {
+        user_data[users[i]].trainerPath.setOptions({strokeOpacity: 0.0})
+      }
     }
 });
 
@@ -175,7 +191,7 @@ var trainerFunc = function(data, user_index) {
             fortPoints = 'Points: ' + fort.gym_points;
             fortTeam = 'Team: ' + teams[fort.owned_by_team] + '<br>';
             fortType = 'Gym';
-            pokemonGuard = 'Guard Pokemon: ' + pokemonArray[fort.guard_pokemon_id-1].Name + '<br>';
+            pokemonGuard = 'Guard Pokemon: ' + (pokemonArray[fort.guard_pokemon_id-1].Name || "None") + '<br>';
           }
           var contentString = 'Id: ' + fort.id + '<br>Type: ' + fortType + '<br>' + pokemonGuard + fortPoints;
           info_windows[fort.id] = new google.maps.InfoWindow({
@@ -191,6 +207,14 @@ var trainerFunc = function(data, user_index) {
       }
     }
   }
+  if (pathcoords[users[user_index]][pathcoords[users[user_index]].length] > 1) {
+    var tempcoords = [{lat: parseFloat(data.lat), lng: parseFloat(data.lng)}];
+    if (tempcoords.lat != pathcoords[users[user_index]][pathcoords[users[user_index]].length-1].lat && tempcoords.lng != pathcoords[users[user_index]][pathcoords[users[user_index]].length-1].lng || pathcoords[users[user_index]].length === 1) {
+      pathcoords[users[user_index]].push({lat: parseFloat(data.lat), lng: parseFloat(data.lng)})
+    }
+  } else {
+    pathcoords[users[user_index]].push({lat: parseFloat(data.lat), lng: parseFloat(data.lng)})
+  }  
   if (user_data[users[user_index]].hasOwnProperty('marker') === false) {
     buildTrainerList();
     addInventory();
@@ -205,6 +229,18 @@ var trainerFunc = function(data, user_index) {
     });
   } else {
     user_data[users[user_index]].marker.setPosition({lat: parseFloat(data.lat), lng: parseFloat(data.lng)});
+    if (pathcoords[users[user_index]].length === 2) {
+      user_data[users[user_index]].trainerPath = new google.maps.Polyline({
+        map: map,
+        path: pathcoords[users[user_index]],
+        geodisc: true,
+        strokeColor: '#FF0000',
+        strokeOpacity: 0.0,
+        strokeWeight: 2
+      });
+    } else {
+      user_data[users[user_index]].trainerPath.setPath(pathcoords[users[user_index]]);
+    }
   }
   if (users.length === 1 && userZoom === true) {
     map.setZoom(16);
