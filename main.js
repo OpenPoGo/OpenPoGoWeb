@@ -134,14 +134,8 @@ $('#imageType').change(function(){
 });
 
 $('#strokeOn').change(function(){
-    if (this.checked) {
-      for (var i = 0; i < users.length; i++) {
-        user_data[users[i]].trainerPath.setOptions({strokeOpacity: 1.0})
-      }
-    } else {
-      for (var i = 0; i < users.length; i++) {
-        user_data[users[i]].trainerPath.setOptions({strokeOpacity: 0.0})
-      }
+    for (var i = 0; i < users.length; i++) {
+        user_data[users[i]].trainerPath.setOptions({strokeOpacity: this.checked ? 1.0 : 0.0})
     }
 });
 
