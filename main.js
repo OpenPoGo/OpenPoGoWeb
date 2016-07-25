@@ -186,7 +186,7 @@ var trainerFunc = function(data, user_index) {
                 lat: parseFloat(fort.latitude),
                 lng: parseFloat(fort.longitude)
               },
-              icon: 'image/forts/' + teams[fort.owned_by_team] + '.png'
+              icon: 'image/forts/' + teams[(fort.owned_by_team || 0)] + '.png'
             });
           }
           fortPoints = '';
