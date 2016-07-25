@@ -301,7 +301,7 @@ var catchSuccess = function(data, user_index) {
       user_data[users[user_index]].catchables[data.spawnpoint_id].setIcon('image/pokemon/' + pad_with_zeroes(data.pokemon_id, 3) + imageExt);
     }
   } else {
-    if (user_data[users[user_index]].catchables === undefined or Object.keys(user_data[users[user_index]].catchables).length == 0) return;
+    if (user_data[users[user_index]].catchables === undefined || Object.keys(user_data[users[user_index]].catchables).length == 0) return;
     log({message: "The Pokemon has been caught or fled " +users[user_index]});
     for (var key in user_data[users[user_index]].catchables) {
       user_data[users[user_index]].catchables[key].setMap(null);
