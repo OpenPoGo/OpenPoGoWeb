@@ -597,11 +597,13 @@ function sortAndShowBagPokemon(sortOn, user_id) {
     pkmIVD = user_data[users[user_id]].bagPokemon[i].inventory_item_data.pokemon_data.individual_defense || 0;
     pkmIVS = user_data[users[user_id]].bagPokemon[i].inventory_item_data.pokemon_data.individual_stamina || 0;
     pkmIV = ((pkmIVA + pkmIVD + pkmIVS) / 45.0).toFixed(2);
+    pkmTime = user_data[users[user_id]].bagPokemon[i].inventory_item_data.pokemon_data.creation_time_ms || 0;
     sortedPokemon.push({
       "name": pkmnName,
       "id":pkmID,
       "cp": pkmCP,
-      "iv": pkmIV
+      "iv": pkmIV,
+      "creation_time": pkmTime
     });
   }
   switch(sortOn) {
@@ -631,11 +633,10 @@ function sortAndShowBagPokemon(sortOn, user_id) {
         return 0;
       });
       break;
-      break;
     case 'time':
       sortedPokemon.sort(function(a, b){
-        if (a.creation_time_ms > b.creation_time_ms) return -1;
-        if (a.creation_time_ms < b.creation_time_ms) return 1;
+        if (a.creation_time > b.creation_time) return -1;
+        if (a.creation_time < b.creation_time) return 1;
         return 0;
       });
       break;
