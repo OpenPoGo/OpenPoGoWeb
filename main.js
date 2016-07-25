@@ -13,7 +13,7 @@ var forts = [];
 var info_windows = [];
 var outArray = [];
 var numTrainers = [
-  177, 
+  177,
   109
 ];
 var teams = [
@@ -325,87 +325,19 @@ $(document).ready(function(){
 });
 
 // Bots list and menus
-
-$(document).on('click','.tInfo',function(){
-  if (!openFlag1) {
-    buildMenu($(this).closest("ul").attr("user_id"),1);
-    openFlag1 = true;
-    openFlag2 = false;
-    openFlag3 = false;
-    openFlag4 = false;
-  } else {
-    $('#submenu').toggle();
-    openFlag1 = false;
-    openFlag2 = false;
-    openFlag3 = false;
-    openFlag4 = false;
-  }
+var submenuIndex = 0
+$('body').on('click', ".bot-items .btn", function() {
+    var itemIndex = $('.bot-items .btn').index($(this)) + 1;
+    if ($('#submenu').is(':visible') && itemIndex == submenuIndex) {
+        $('#submenu').toggle();
+    } else {
+        submenuIndex = itemIndex;
+        buildMenu($(this).closest("ul").data("user-id"), itemIndex);
+    }
 });
 
-$(document).on('click','.tItems',function(){
-  if (!openFlag2) {
-    buildMenu($(this).closest("ul").attr("user_id"),2);
-    openFlag2 = true;
-    openFlag1 = false;
-    openFlag3 = false;
-    openFlag4 = false;
-  } else {
-    $('#submenu').toggle();
-    openFlag1 = false;
-    openFlag2 = false;
-    openFlag3 = false;
-    openFlag4 = false;
-  }
-});
-
-$(document).on('click','.tPokemon',function(){
-  if (!openFlag3) {
-    buildMenu($(this).closest("ul").attr("user_id"),3);
-    openFlag3 = true;
-    openFlag1 = false;
-    openFlag2 = false;
-    openFlag4 = false;
-  } else {
-    $('#submenu').toggle();
-    openFlag1 = false;
-    openFlag2 = false;
-    openFlag3 = false;
-    openFlag4 = false;
-  }
-});
-
-$(document).on('click','.tPokedex',function(){
-  if (!openFlag4) {
-    buildMenu($(this).closest("ul").attr("user_id"),4);
-    openFlag4 = true;
-    openFlag1 = false;
-    openFlag2 = false;
-    openFlag3 = false;
-  } else {
-    $('#submenu').toggle();
-    openFlag1 = false;
-    openFlag2 = false;
-    openFlag3 = false;
-    openFlag4 = false;
-  }
-});
-
-$(document).on('click','#close',function(){
+$('body').on('click','#close',function(){
   $('#submenu').toggle();
-    openFlag1 = false;
-    openFlag2 = false;
-    openFlag3 = false;
-    openFlag4 = false;
-});
-
-$(document).on('click','.bot-name',function(){
-  if (openFlag1 || openFlag2 || openFlag3 || openFlag4) {
-    $('#submenu').toggle();
-    openFlag1 = false;
-    openFlag2 = false;
-    openFlag3 = false;
-    openFlag4 = false;
-  }
 });
 
 function buildTrainerList() {
@@ -414,7 +346,7 @@ function buildTrainerList() {
   for(var i = 0; i < users.length; i++)
   {
     out += '<li><div class="collapsible-header bot-name">'+users[i]+
-           '</div><div class="collapsible-body"><ul user_id="'+i+'">\
+           '</div><div class="collapsible-body"><ul class="bot-items" data-user-id="'+i+'">\
            <li><a class="indigo waves-effect waves-light btn tInfo">Info</a></li><br>\
            <li><a class="indigo waves-effect waves-light btn tItems">Items</a></li><br>\
            <li><a class="indigo waves-effect waves-light btn tPokemon">Pokemon</a></li><br>\
@@ -466,7 +398,7 @@ function buildMenu(user_id, menu) {
               '<br>Kilometers Walked: ' +
               (parseFloat(current_user_stats.km_walked).toFixed(2) || 0) +
               '</div></div>';
-    
+
     document.getElementById('subcontent').innerHTML = out;
   }
   if (menu == 2) {
@@ -508,7 +440,7 @@ function buildMenu(user_id, menu) {
     document.getElementById('subtitle').innerHTML = "Pokedex "+ pkmnTotal + ' / 151';
 
     document.getElementById('sortButtons').innerHTML = "";
-    
+
     out = '<div class="row items">';
     for (i = 0; i < user_data[users[user_id]].pokedex.length; i++) {
       var current_pokedex = user_data[users[user_id]].pokedex[i].inventory_item_data.pokedex_entry;
@@ -522,7 +454,7 @@ function buildMenu(user_id, menu) {
               '</b><br>Number: ' +
               pkmnNum +
               '<br>Times Encountered: ' +
-              current_pokedex.times_encountered + 
+              current_pokedex.times_encountered +
               '<br>Times Caught: ' +
               (current_pokedex.times_captured || 0) +
               '</div>';
