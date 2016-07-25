@@ -24,8 +24,7 @@ html, body {
 	display: none;
 }
 #sortButtons {
-	float: right;
-	margin: 9px 10px 0 0;
+	text-align: right;
 }
 #sortButtons .chip {
 	margin-right: 3px;
