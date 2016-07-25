@@ -91,8 +91,6 @@ function initMap() {
   }, errorFunc, 'pokemonCandy');
   for (var i = 0; i < users.length; i++) {
     user_data[users[i]] = {};
-  }
-  for (var i = 0; i < users.length; i++) {
     pathcoords[users[i]] = [];
   }
   map = new google.maps.Map(document.getElementById('map'), {
