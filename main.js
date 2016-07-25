@@ -284,7 +284,7 @@ var catchSuccess = function(data, user_index) {
         user_data[users[user_index]].catchables[data.spawnpoint_id] = new google.maps.Marker({
           map: map,
           position: {lat: parseFloat(data.latitude), lng: parseFloat(data.longitude)},
-          icon: 'image/pokemon/' + pad_with_zeroes(data.pokemon_id, 3) + imageExt,
+		  icon: {url:'image/pokemon/' + pad_with_zeroes(data.pokemon_id, 3) + imageExt, scaledSize: new google.maps.Size(70, 70)},
           zIndex: 4,
           optimized: false
         });
@@ -302,7 +302,7 @@ var catchSuccess = function(data, user_index) {
           lat: parseFloat(data.latitude),
           lng: parseFloat(data.longitude)
         });
-        user_data[users[user_index]].catchables[data.spawnpoint_id].setIcon('image/pokemon/' + pad_with_zeroes(data.pokemon_id, 3) + imageExt);
+        user_data[users[user_index]].catchables[data.spawnpoint_id].setIcon({url:'image/pokemon/' + pad_with_zeroes(data.pokemon_id, 3) + imageExt, scaledSize: new google.maps.Size(70, 70)});
       }
     }
   } else {
