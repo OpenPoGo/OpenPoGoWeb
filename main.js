@@ -134,13 +134,13 @@ $('#imageType').change(function(){
 });
 
 $('#strokeOn').change(function(){
-    for (var i = 0; i < users.length; i++) {
-        user_data[users[i]].trainerPath.setOptions({strokeOpacity: this.checked ? 1.0 : 0.0})
-    }
+  for (var i = 0; i < users.length; i++) {
+    user_data[users[i]].trainerPath.setOptions({strokeOpacity: this.checked ? 1.0 : 0.0})
+  }
 });
 
 $('#optionsButton').click(function(){
-    $('#optionsList').toggle();
+  $('#optionsList').toggle();
 });
 
 $('#logs-button').click(function(){
@@ -162,51 +162,53 @@ var invSuccess = function(data, user_index) {
 var trainerFunc = function(data, user_index) {
   for (var i = 0; i < data.cells.length; i++) {
     cell = data.cells[i];
-    if (data.cells[i].forts != undefined) {
-      for (var x = 0; x < data.cells[i].forts.length; x++) {
-        var fort = cell.forts[x];
-        if (!forts[fort.id]) {
-          if (fort.type === 1 ) {
-            forts[fort.id] = new google.maps.Marker({
-              map: map,
-              position: {
-                lat: parseFloat(fort.latitude),
-                lng: parseFloat(fort.longitude)
-              },
-              icon: 'image/forts/img_pokestop.png'
-            });
-          } else {
-            forts[fort.id] = new google.maps.Marker({
-              map: map,
-              position: {
-                lat: parseFloat(fort.latitude),
-                lng: parseFloat(fort.longitude)
-              },
-              icon: 'image/forts/' + teams[(fort.owned_by_team || 0)] + '.png'
-            });
-          }
-          fortPoints = '';
-          fortTeam = '';
-          fortType = 'PokeStop';
-          pokemonGuard = '';
-          if (fort.guard_pokemon_id != undefined) {
-            fortPoints = 'Points: ' + fort.gym_points;
-            fortTeam = 'Team: ' + teams[fort.owned_by_team] + '<br>';
-            fortType = 'Gym';
-            pokemonGuard = 'Guard Pokemon: ' + (pokemonArray[fort.guard_pokemon_id-1].Name || "None") + '<br>';
-          }
-          var contentString = 'Id: ' + fort.id + '<br>Type: ' + fortType + '<br>' + pokemonGuard + fortPoints;
-          info_windows[fort.id] = new google.maps.InfoWindow({
-            content: contentString
-          });
-          google.maps.event.addListener(forts[fort.id], 'click', (function(marker, content, infowindow) {
-            return function() {
-              infowindow.setContent(content);
-              infowindow.open(map, marker);
-            };
-          })(forts[fort.id], contentString, info_windows[fort.id]));
-        }
+    if (data.cells[i].forts == undefined) {
+      continue;
+    }
+    for (var x = 0; x < data.cells[i].forts.length; x++) {
+      var fort = cell.forts[x];
+      if (forts[fort.id]) {
+        continue;
       }
+      if (fort.type === 1 ) {
+        forts[fort.id] = new google.maps.Marker({
+          map: map,
+          position: {
+            lat: parseFloat(fort.latitude),
+            lng: parseFloat(fort.longitude)
+          },
+          icon: 'image/forts/img_pokestop.png'
+        });
+      } else {
+        forts[fort.id] = new google.maps.Marker({
+          map: map,
+          position: {
+              lat: parseFloat(fort.latitude),
+              lng: parseFloat(fort.longitude)
+            },
+            icon: 'image/forts/' + teams[(fort.owned_by_team || 0)] + '.png'
+        });
+      }
+      fortPoints = '';
+      fortTeam = '';
+      fortType = 'PokeStop';
+      pokemonGuard = '';
+      if (fort.guard_pokemon_id != undefined) {
+        fortPoints = 'Points: ' + fort.gym_points;
+        fortTeam = 'Team: ' + teams[fort.owned_by_team] + '<br>';
+        fortType = 'Gym';
+        pokemonGuard = 'Guard Pokemon: ' + (pokemonArray[fort.guard_pokemon_id-1].Name || "None") + '<br>';
+      }
+      var contentString = 'Id: ' + fort.id + '<br>Type: ' + fortType + '<br>' + pokemonGuard + fortPoints;
+      info_windows[fort.id] = new google.maps.InfoWindow({
+        content: contentString
+      });
+      google.maps.event.addListener(forts[fort.id], 'click', (function(marker, content, infowindow) {
+        return function() {
+          infowindow.setContent(content);
+          infowindow.open(map, marker);
+        };
+      })(forts[fort.id], contentString, info_windows[fort.id]));
     }
   }
   if (pathcoords[users[user_index]][pathcoords[users[user_index]].length] > 1) {
@@ -271,42 +273,40 @@ var catchSuccess = function(data, user_index) {
     if (user_data[users[user_index]].catchables === undefined) {
       user_data[users[user_index]].catchables = {};
     }
-    if (data.latitude !== undefined) {
-      if (user_data[users[user_index]].catchables.hasOwnProperty(data.spawnpoint_id) === false) {
-        poke_name = pokemonArray[data.pokemon_id-1].Name;
-        log({message: poke_name+" appeared near trainder: " +users[user_index], color: "green-text"});
-        user_data[users[user_index]].catchables[data.spawnpoint_id] = new google.maps.Marker({
-          map: map,
-          position: {lat: parseFloat(data.latitude), lng: parseFloat(data.longitude)},
-          icon: 'image/pokemon/' + pad_with_zeroes(data.pokemon_id, 3) + imageExt,
-          zIndex: 4,
-          optimized: false
-        });
-          if (userZoom === true) {
-            map.setZoom(16);
-          }
-          if (userFollow === true) {
-            map.panTo({
-              lat: parseFloat(data.latitude),
-              lng: parseFloat(data.longitude)
-            });
-          }
-      } else {
-        user_data[users[user_index]].catchables[data.spawnpoint_id].setPosition({
+    if (data.latitude == undefined) return;
+    if (user_data[users[user_index]].catchables.hasOwnProperty(data.spawnpoint_id) === false) {
+      poke_name = pokemonArray[data.pokemon_id-1].Name;
+      log({message: poke_name+" appeared near trainder: " +users[user_index], color: "green-text"});
+      user_data[users[user_index]].catchables[data.spawnpoint_id] = new google.maps.Marker({
+        map: map,
+        position: {lat: parseFloat(data.latitude), lng: parseFloat(data.longitude)},
+        icon: 'image/pokemon/' + pad_with_zeroes(data.pokemon_id, 3) + imageExt,
+        zIndex: 4,
+        optimized: false
+      });
+      if (userZoom === true) {
+        map.setZoom(16);
+      }
+      if (userFollow === true) {
+        map.panTo({
           lat: parseFloat(data.latitude),
           lng: parseFloat(data.longitude)
         });
-        user_data[users[user_index]].catchables[data.spawnpoint_id].setIcon('image/pokemon/' + pad_with_zeroes(data.pokemon_id, 3) + imageExt);
       }
+    } else {
+      user_data[users[user_index]].catchables[data.spawnpoint_id].setPosition({
+        lat: parseFloat(data.latitude),
+        lng: parseFloat(data.longitude)
+      });
+      user_data[users[user_index]].catchables[data.spawnpoint_id].setIcon('image/pokemon/' + pad_with_zeroes(data.pokemon_id, 3) + imageExt);
     }
   } else {
-    if (user_data[users[user_index]].catchables !== undefined && Object.keys(user_data[users[user_index]].catchables).length > 0) {
-      log({message: "The Pokemon has been caught or fled " +users[user_index]});
-      for (var key in user_data[users[user_index]].catchables) {
-        user_data[users[user_index]].catchables[key].setMap(null);
-      }
-      user_data[users[user_index]].catchables = undefined;
+    if (user_data[users[user_index]].catchables === undefined or Object.keys(user_data[users[user_index]].catchables).length == 0) return;
+    log({message: "The Pokemon has been caught or fled " +users[user_index]});
+    for (var key in user_data[users[user_index]].catchables) {
+      user_data[users[user_index]].catchables[key].setMap(null);
     }
+    user_data[users[user_index]].catchables = undefined;
   }
 };
 
@@ -333,7 +333,7 @@ function addInventory() {
 function pad_with_zeroes(number, length) {
   var my_string = '' + number;
   while (my_string.length < length) {
-      my_string = '0' + my_string;
+    my_string = '0' + my_string;
   }
   return my_string;
 }
@@ -597,11 +597,13 @@ function sortAndShowBagPokemon(sortOn, user_id) {
     pkmIVD = user_data[users[user_id]].bagPokemon[i].inventory_item_data.pokemon_data.individual_defense || 0;
     pkmIVS = user_data[users[user_id]].bagPokemon[i].inventory_item_data.pokemon_data.individual_stamina || 0;
     pkmIV = ((pkmIVA + pkmIVD + pkmIVS) / 45.0).toFixed(2);
+    pkmTime = user_data[users[user_id]].bagPokemon[i].inventory_item_data.pokemon_data.creation_time_ms;
     sortedPokemon.push({
       "name": pkmnName,
       "id":pkmID,
       "cp": pkmCP,
-      "iv": pkmIV
+      "iv": pkmIV,
+      "creation_time_ms": pkmTime
     });
   }
   switch(sortOn) {
@@ -683,7 +685,6 @@ function sortAndShowPokedex(sortOn, user_id) {
       "enc": (pkmCap || 0)
     });
   }
-  console.log(sortedPokedex)
   switch(sortOn) {
     case 'id':
       sortedPokedex.sort(function(a, b){
