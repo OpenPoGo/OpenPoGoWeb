@@ -283,6 +283,15 @@ function addInventory() {
   }
 }
 
+function plural(item, word){
+	word = word || "";
+	if (typeof item == "number" && item > 1 || item.length > 1){
+		 return word+"s";
+	}else {
+		 return word;
+	}
+}
+
 function pad_with_zeroes(number, length) {
   var my_string = '' + number;
   while (my_string.length < length) {
@@ -471,7 +480,7 @@ function buildMenu(user_id, menu) {
   }
   if (menu == 2) {
     var current_user_bag_items = user_data[users[user_id]].bagItems;
-    document.getElementById('subtitle').innerHTML = current_user_bag_items.length+" items in Bag";
+    document.getElementById('subtitle').innerHTML = current_user_bag_items.length+' ' + plural(current_user_bag_items,"item") + ' in Bag';
 
     document.getElementById('sortButtons').innerHTML = "";
 
@@ -490,7 +499,7 @@ function buildMenu(user_id, menu) {
   }
   if (menu == 3) {
     pkmnTotal = user_data[users[user_id]].bagPokemon.length;
-    document.getElementById('subtitle').innerHTML = pkmnTotal+" Pokemons";
+    document.getElementById('subtitle').innerHTML = pkmnTotal+" Pokemon";
 
     sortButtons = '<div style="float: right">Sort : ';
     sortButtons += '<div class="chip"><a href="javascript:sortAndShowBagPokemon(\'cp\',' + user_id + ')">CP</a></div>';
@@ -614,7 +623,7 @@ function sortAndShowBagPokemon(sortOn, user_id) {
   }
 
   // Add number of eggs
-  out += '<div class="col s12 m4 l3 center" style="float: left;"><img src="image/pokemon/Egg.png" class="png_img"><br><b>You have ' + eggs + ' eggs</div>';
+  out += '<div class="col s12 m4 l3 center" style="float: left;"><img src="image/pokemon/Egg.png" class="png_img"><br><b>You have ' + eggs + ' ' + plural(eggs,"egg") + '</div>';
 
   out += '</div>';
 
