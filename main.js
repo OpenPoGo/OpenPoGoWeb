@@ -542,7 +542,7 @@ function buildMenu(user_id, menu) {
   }
   if (menu == 3) {
     pkmnTotal = user_data[users[user_id]].bagPokemon.length;
-    document.getElementById('subtitle').innerHTML = pkmnTotal+" Pokemons";
+    document.getElementById('subtitle').innerHTML = pkmnTotal+" Pokemon";
 
     sortButtons = '<div class="col s12">Sort : ';
     sortButtons += '<div class="chip"><a href="javascript:sortAndShowBagPokemon(\'cp\',' + user_id + ')">CP</a></div>';
