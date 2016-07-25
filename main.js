@@ -373,8 +373,8 @@ $(document).ready(function(){
 
 // Bots list and menus
 var submenuIndex = 0
-$('body').on('click', ".bot-items .btn", function() {
-    var itemIndex = $('.bot-items .btn').index($(this)) + 1;
+$('body').on('click', ".bot-user .bot-items .btn", function() {
+    var itemIndex = $(this).parent().parent().find('.btn').index($(this)) + 1;
     if ($('#submenu').is(':visible') && itemIndex == submenuIndex) {
         $('#submenu').toggle();
     } else {
@@ -392,7 +392,7 @@ function buildTrainerList() {
               <li><div class="collapsible-title"><i class="material-icons">people</i>Bots</div></li>';
   for(var i = 0; i < users.length; i++)
   {
-    out += '<li><div class="collapsible-header bot-name">'+users[i]+
+    out += '<li class="bot-user"><div class="collapsible-header bot-name">'+users[i]+
            '</div><div class="collapsible-body"><ul class="bot-items" data-user-id="'+i+'">\
            <li><a class="indigo waves-effect waves-light btn tInfo">Info</a></li><br>\
            <li><a class="indigo waves-effect waves-light btn tItems">Items</a></li><br>\
