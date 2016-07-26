@@ -93,10 +93,10 @@ var mapView = {
       self.log({
         message: 'Loading Data..'
       });
-      self.loadJSON('pokemondata.json', function(data, successData) {
+      self.loadJSON('data/pokemondata.json', function(data, successData) {
         self.pokemonArray = data;
       }, self.errorFunc, 'pokemonData');
-      self.loadJSON('pokemoncandy.json', function(data, successData) {
+      self.loadJSON('data/pokemoncandy.json', function(data, successData) {
         self.pokemoncandyArray = data;
       }, self.errorFunc, 'pokemonCandy');
       for (var i = 0; i < self.settings.users.length; i++) {
