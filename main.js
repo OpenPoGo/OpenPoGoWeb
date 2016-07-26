@@ -86,15 +86,6 @@ var mapView = {
   settings: {},
   init: function() {
     var self = this;
-    // Converting settings for older users
-    if (typeof(userInfo) === 'undefined') {
-      var userInfo = {
-        users: users,
-        userZoom: userZoom,
-        userFollow: userFollow,
-        gMapsAPIKey: gMapsAPIKey
-      };
-    }
     self.settings = $.extend(true, self.settings, userInfo);
     self.bindUi();
 
@@ -360,7 +351,7 @@ var mapView = {
         if (user.catchables.hasOwnProperty(data.spawnpoint_id) === false) {
           poke_name = self.pokemonArray[data.pokemon_id - 1].Name;
           self.log({
-            message: "[" + users[user_index] + "] " + poke_name + " appeared",
+            message: "[" + self.settings.users[user_index] + "] " + poke_name + " appeared",
             color: "green-text"
           });
           user.catchables[data.spawnpoint_id] = new google.maps.Marker({
@@ -722,7 +713,7 @@ var mapView = {
       self.buildTrainerList();
       self.addInventory();
       self.log({
-        message: "Trainer loaded: " + users[user_index],
+        message: "Trainer loaded: " + self.settings.users[user_index],
         color: "blue-text"
       });
       var randomSex = Math.floor(Math.random() * 1);
