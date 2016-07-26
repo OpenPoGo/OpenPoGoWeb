@@ -255,7 +255,7 @@ var mapView = {
           (parseFloat(current_user_stats.km_walked).toFixed(2) || 0) +
           '</div></div>';
 
-        $('#subcontent').html(out)
+        $('#subcontent').html(out);
         break;
       case 2:
         var current_user_bag_items = self.user_data[self.settings.users[user_id]].bagItems;
@@ -274,7 +274,7 @@ var mapView = {
             '</div>';
         }
         out += '</div></div>';
-        var nth = 0
+        var nth = 0;
         out = out.replace(/<\/div><div/g, function (match, i, original) {
           nth++;
           return (nth % 4 === 0) ? '</div></div><div class="row"><div' : match;
@@ -311,6 +311,8 @@ var mapView = {
         $('#sortButtons').html(sortButtons);
 
         self.sortAndShowPokedex('id', user_id);
+        break;
+      default:
         break;
     }
   },
@@ -390,7 +392,7 @@ var mapView = {
     } else {
       if (user.catchables !== undefined && Object.keys(user.catchables).length > 0) {
         self.log({
-          message: "[" + users[user_index] + "] " + poke_name + " has been caught or fled"
+          message: "[" + self.settings.users[user_index] + "] " + poke_name + " has been caught or fled"
         });
         for (var key in user.catchables) {
           user.catchables[key].setMap(null);
@@ -464,7 +466,6 @@ var mapView = {
   sortAndShowBagPokemon: function(sortOn, user_id) {
     var self = this,
       eggs = 0,
-      sortOn = sortOn || 'cp',
       sortedPokemon = [],
       out = '',
       user = self.user_data[self.settings.users[user_id]],
@@ -536,6 +537,13 @@ var mapView = {
           return 0;
         });
         break;
+      default:
+        sortedPokemon.sort(function(a, b) {
+          if (a.cp > b.cp) return -1;
+          if (a.cp < b.cp) return 1;
+          return 0;
+        });
+        break;
     }
     for (var i = 0; i < sortedPokemon.length; i++) {
       var pkmnNum = sortedPokemon[i].id,
@@ -560,7 +568,7 @@ var mapView = {
     // Add number of eggs
     out += '<div class="col s12 m4 l3 center" style="float: left;"><img src="image/pokemon/Egg.png" class="png_img"><br><b>You have ' + eggs + ' egg' + (eggs !== 1 ? "s" : "") + '</div>';
     out += '</div></div>';
-    var nth = 0
+    var nth = 0;
     out = out.replace(/<\/div><div/g, function (match, i, original) {
       nth++;
       return (nth % 4 === 0) ? '</div></div><div class="row"><div' : match;
@@ -570,7 +578,6 @@ var mapView = {
   sortAndShowPokedex: function(sortOn, user_id) {
     var self = this,
       out = '',
-      sortOn = sortOn || 'id',
       sortedPokedex = [],
       user_id = (user_id || 0),
       user = self.user_data[self.settings.users[user_id]];
@@ -615,6 +622,11 @@ var mapView = {
           return a.cap - b.cap;
         });
         break;
+      default:
+        sortedPokedex.sort(function(a, b) {
+          return a.id - b.id;
+        });
+        break;
     }
     for (var i = 0; i < sortedPokedex.length; i++) {
       var pkmnNum = sortedPokedex[i].id,
@@ -639,7 +651,7 @@ var mapView = {
         '</div>';
     }
     out += '</div></div>';
-    var nth = 0
+    var nth = 0;
     out = out.replace(/<\/div><div/g, function (match, i, original) {
       nth++;
       return (nth % 4 === 0) ? '</div></div><div class="row"><div' : match;
@@ -793,7 +805,7 @@ var mapView = {
       Materialize.toast(log_object.message, 3000);
     }
   }
-}
+};
 
 if (!String.prototype.format) {
   String.prototype.format = function() {
