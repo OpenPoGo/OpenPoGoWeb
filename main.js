@@ -280,7 +280,7 @@ var catchSuccess = function(data, user_index) {
     if (data.latitude !== undefined) {
       if (user_data[users[user_index]].catchables.hasOwnProperty(data.spawnpoint_id) === false) {
         poke_name = pokemonArray[data.pokemon_id-1].Name;
-        log({message: poke_name+" appeared near trainder: " +users[user_index], color: "green-text"});
+        log({message: "["+users[user_index]+"] "+poke_name+" appeared", color: "green-text"});
         user_data[users[user_index]].catchables[data.spawnpoint_id] = new google.maps.Marker({
           map: map,
           position: {lat: parseFloat(data.latitude), lng: parseFloat(data.longitude)},
@@ -307,7 +307,7 @@ var catchSuccess = function(data, user_index) {
     }
   } else {
     if (user_data[users[user_index]].catchables !== undefined && Object.keys(user_data[users[user_index]].catchables).length > 0) {
-      log({message: "The Pokemon has been caught or fled " +users[user_index]});
+      log({message: "["+users[user_index]+"] "+poke_name+" has been caught or fled"});
       for (var key in user_data[users[user_index]].catchables) {
         user_data[users[user_index]].catchables[key].setMap(null);
       }
