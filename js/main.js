@@ -144,92 +144,8 @@ var mapView = {
       $('#optionsList').toggle();
     });
 
-var errorFunc = function(xhr) {
-  console.error(xhr);
-};
-
-var invSuccess = function(data, user_index) {
-  bagCandy = filter(data, 'pokemon_family');
-  bagItems = filter(data, 'item');
-  bagPokemon = filter(data, 'pokemon_data');
-  pokedex = filter(data, 'pokedex_entry');
-  stats = filter(data, 'player_stats');
-  user_data[users[user_index]].bagCandy = bagCandy;
-  user_data[users[user_index]].bagItems = bagItems;
-  user_data[users[user_index]].bagPokemon = bagPokemon;
-  user_data[users[user_index]].pokedex = pokedex;
-  user_data[users[user_index]].stats = stats;
-};
-
-var trainerFunc = function(data, user_index) {
-  for (var i = 0; i < data.cells.length; i++) {
-    cell = data.cells[i];
-    if (data.cells[i].forts != undefined) {
-      for (var x = 0; x < data.cells[i].forts.length; x++) {
-        var fort = cell.forts[x];
-        if (!forts[fort.id]) {
-          if (fort.type === 1 ) {
-            forts[fort.id] = new google.maps.Marker({
-              map: map,
-              position: {
-                lat: parseFloat(fort.latitude),
-                lng: parseFloat(fort.longitude)
-              },
-              icon: 'image/forts/img_pokestop.png'
-            });
-          } else {
-            forts[fort.id] = new google.maps.Marker({
-              map: map,
-              position: {
-                lat: parseFloat(fort.latitude),
-                lng: parseFloat(fort.longitude)
-              },
-              icon: 'image/forts/' + teams[(fort.owned_by_team || 0)] + '.png'
-            });
-          }
-          fortPoints = '';
-          fortTeam = '';
-          fortType = 'PokeStop';
-          pokemonGuard = '';
-          if (fort.guard_pokemon_id != undefined) {
-            fortPoints = 'Points: ' + fort.gym_points;
-            fortTeam = 'Team: ' + teams[fort.owned_by_team] + '<br>';
-            fortType = 'Gym';
-            pokemonGuard = 'Guard Pokemon: ' + (pokemonArray[fort.guard_pokemon_id-1].Name || "None") + '<br>';
-          }
-          var contentString = 'Id: ' + fort.id + '<br>Type: ' + fortType + '<br>' + pokemonGuard + fortPoints;
-          info_windows[fort.id] = new google.maps.InfoWindow({
-            content: contentString
-          });
-          google.maps.event.addListener(forts[fort.id], 'click', (function(marker, content, infowindow) {
-            return function() {
-              infowindow.setContent(content);
-              infowindow.open(map, marker);
-            };
-          })(forts[fort.id], contentString, info_windows[fort.id]));
-        }
-      }
-    }
-  }
-  if (pathcoords[users[user_index]][pathcoords[users[user_index]].length] > 1) {
-    var tempcoords = [{lat: parseFloat(data.lat), lng: parseFloat(data.lng)}];
-    if (tempcoords.lat != pathcoords[users[user_index]][pathcoords[users[user_index]].length-1].lat && tempcoords.lng != pathcoords[users[user_index]][pathcoords[users[user_index]].length-1].lng || pathcoords[users[user_index]].length === 1) {
-      pathcoords[users[user_index]].push({lat: parseFloat(data.lat), lng: parseFloat(data.lng)});
-    }
-  } else {
-    pathcoords[users[user_index]].push({lat: parseFloat(data.lat), lng: parseFloat(data.lng)});
-  }
-  if (user_data[users[user_index]].hasOwnProperty('marker') === false) {
-    buildTrainerList();
-    addInventory();
-    log({message: "Trainer loaded: " +users[user_index], color: "blue-text"});
-    randomSex = Math.floor(Math.random() * 1);
-    user_data[users[user_index]].marker = new google.maps.Marker({
-      map: map,
-      position: {lat: parseFloat(data.lat), lng: parseFloat(data.lng)},
-      icon: 'image/trainer/' + trainerSex[randomSex] + Math.floor(Math.random() * numTrainers[randomSex]) + '.png',
-      zIndex: 2,
-      label: users[user_index]
+    $('#logs-button').click(function() {
+      $('#logs-panel').toggle();
     });
     // Init tooltip
     $(document).ready(function() {
@@ -360,22 +276,12 @@ var trainerFunc = function(data, user_index) {
             (current_user_bag_items[i].inventory_item_data.item.count || 0) +
             '</div>';
         }
-<<<<<<< HEAD:main.js
-=======
-<<<<<<< a58f934ce68cdf672429429503c6dff80424f9f9:main.js
-        out += '</div>';
-=======
->>>>>>> 02754f1... change troy disk to lure module:js/main.js
         out += '</div></div>';
         var nth = 0;
         out = out.replace(/<\/div><div/g, function (match, i, original) {
           nth++;
           return (nth % 4 === 0) ? '</div></div><div class="row"><div' : match;
         });
-<<<<<<< HEAD:main.js
-=======
->>>>>>> change troy disk to lure module:js/main.js
->>>>>>> 02754f1... change troy disk to lure module:js/main.js
         $('#subcontent').html(out);
         break;
       case 3:
@@ -530,23 +436,6 @@ var trainerFunc = function(data, user_index) {
       if (self.pokemoncandyArray[p_num] === checkCandy) {
         return (user.bagCandy[i].inventory_item_data.pokemon_family.candy || 0);
       }
-      var pokemonData = user.bagPokemon[i].inventory_item_data.pokemon_data,
-        pkmID = pokemonData.pokemon_id,
-        pkmnName = self.pokemonArray[pkmID - 1].Name,
-        pkmCP = pokemonData.cp,
-        pkmIVA = pokemonData.individual_attack || 0,
-        pkmIVD = pokemonData.individual_defense || 0,
-        pkmIVS = pokemonData.individual_stamina || 0,
-        pkmIV = ((pkmIVA + pkmIVD + pkmIVS) / 45.0).toFixed(2),
-        pkmTime = pokemonData.creation_time_ms || 0;
-
-      sortedPokemon.push({
-        "name": pkmnName,
-        "id": pkmID,
-        "cp": pkmCP,
-        "iv": pkmIV,
-        "creation_time": pkmTime
-      });
     }
   },
   invSuccess: function(data, user_index) {
@@ -682,22 +571,12 @@ var trainerFunc = function(data, user_index) {
     }
     // Add number of eggs
     out += '<div class="col s12 m4 l3 center" style="float: left;"><img src="image/pokemon/Egg.png" class="png_img"><br><b>You have ' + eggs + ' egg' + (eggs !== 1 ? "s" : "") + '</div>';
-<<<<<<< HEAD:main.js
-=======
-<<<<<<< a58f934ce68cdf672429429503c6dff80424f9f9:main.js
-    out += '</div>';
-=======
->>>>>>> 02754f1... change troy disk to lure module:js/main.js
     out += '</div></div>';
     var nth = 0;
     out = out.replace(/<\/div><div/g, function (match, i, original) {
       nth++;
       return (nth % 4 === 0) ? '</div></div><div class="row"><div' : match;
     });
-<<<<<<< HEAD:main.js
-=======
->>>>>>> change troy disk to lure module:js/main.js
->>>>>>> 02754f1... change troy disk to lure module:js/main.js
     $('#subcontent').html(out);
   },
   sortAndShowPokedex: function(sortOn, user_id) {
@@ -775,22 +654,12 @@ var trainerFunc = function(data, user_index) {
         candyNum +
         '</div>';
     }
-<<<<<<< HEAD:main.js
-=======
-<<<<<<< a58f934ce68cdf672429429503c6dff80424f9f9:main.js
-    out += '</div>';
-=======
->>>>>>> 02754f1... change troy disk to lure module:js/main.js
     out += '</div></div>';
     var nth = 0;
     out = out.replace(/<\/div><div/g, function (match, i, original) {
       nth++;
       return (nth % 4 === 0) ? '</div></div><div class="row"><div' : match;
     });
-<<<<<<< HEAD:main.js
-=======
->>>>>>> change troy disk to lure module:js/main.js
->>>>>>> 02754f1... change troy disk to lure module:js/main.js
     $('#subcontent').html(out);
   },
   trainerFunc: function(data, user_index) {
