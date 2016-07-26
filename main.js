@@ -283,7 +283,7 @@ var mapView = {
         break;
       case 3:
         var pkmnTotal = self.user_data[self.settings.users[user_id]].bagPokemon.length;
-        $('subtitle').html(pkmnTotal + " Pokemon");
+        $('#subtitle').html(pkmnTotal + " Pokemon");
 
         var sortButtons = '<div class="col s12 pokemon-sort" data-user-id="' + user_id + '">Sort : ';
         sortButtons += '<div class="chip"><a href="#" data-sort="cp">CP</a></div>';
@@ -299,7 +299,7 @@ var mapView = {
         break;
       case 4:
         var pkmnTotal = self.user_data[self.settings.users[user_id]].pokedex.length;
-        $('subtitle').html('Pokedex ' + pkmnTotal + ' / 151');
+        $('#subtitle').html('Pokedex ' + pkmnTotal + ' / 151');
 
         var sortButtons = '<div class="col s12 pokedex-sort" dat-user-id="' + user_id + '">Sort : ';
         sortButtons += '<div class="chip"><a href="#" data-sort="id">ID</a></div>';
