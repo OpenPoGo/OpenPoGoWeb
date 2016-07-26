@@ -223,7 +223,7 @@ var mapView = {
       case 1:
         var current_user_stats = self.user_data[self.settings.users[user_id]].stats[0].inventory_item_data.player_stats;
         $('#subtitle').html('Trainer Info');
-        $('sortButtons').html("");
+        $('#sortButtons').html('');
 
         out += '<div class="row"><div class="col s12"><h5>' +
           self.settings.users[user_id] +
