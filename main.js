@@ -327,11 +327,11 @@ var mapView = {
             <div class="collapsible-header bot-name">{0}</div>\
                 <div class="collapsible-body">\
                     <ul class="bot-items" data-user-id="{1}">\
-                       <li><a class="indigo waves-effect waves-light btn tInfo">Info</a></li><br>\
-                       <li><a class="indigo waves-effect waves-light btn tItems">Items</a></li><br>\
-                       <li><a class="indigo waves-effect waves-light btn tPokemon">Pokemon</a></li><br>\
-                       <li><a class="indigo waves-effect waves-light btn tPokedex">Pokedex</a></li><br>\
-                       <li><a class="indigo waves-effect waves-light btn tFind">Find</a></li>\
+                       <li><a class="bot-' + i + ' waves-effect waves-light btn tInfo">Info</a></li><br>\
+                       <li><a class="bot-' + i + ' waves-effect waves-light btn tItems">Items</a></li><br>\
+                       <li><a class="bot-' + i + ' waves-effect waves-light btn tPokemon">Pokemon</a></li><br>\
+                       <li><a class="bot-' + i + ' waves-effect waves-light btn tPokedex">Pokedex</a></li><br>\
+                       <li><a class="bot-' + i + ' waves-effect waves-light btn tFind">Find</a></li>\
                    </ul>\
                </div>\
            </li>';
