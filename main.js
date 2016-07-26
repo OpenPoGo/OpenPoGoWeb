@@ -229,7 +229,10 @@ var mapView = {
           self.settings.users[user_id] +
           '</h5><br>Level: ' +
           current_user_stats.level +
-          '<br>Exp: ' +
+          '<br><div class="progress botbar-' + user_id + '" style="height: 10px"> <div class="determinate bot-' + user_id + '" style="width: '+
+          (current_user_stats.experience/
+          current_user_stats.next_level_xp) * 100 +
+          '%"></div></div>Exp: ' +
           current_user_stats.experience +
           '<br>Exp to Lvl ' +
           (parseInt(current_user_stats.level, 10) + 1) +
