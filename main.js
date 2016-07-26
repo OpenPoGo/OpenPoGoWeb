@@ -367,7 +367,8 @@ var mapView = {
               scaledSize: new google.maps.Size(70, 70)
             },
             zIndex: 4,
-            optimized: false
+            optimized: false,
+            clickable: false
           });
           if (self.settings.userZoom === true) {
             self.map.setZoom(16);
@@ -743,7 +744,8 @@ var mapView = {
         },
         icon: 'image/trainer/' + self.trainerSex[randomSex] + Math.floor(Math.random() * self.numTrainers[randomSex]) + '.png',
         zIndex: 2,
-        label: self.settings.users[user_index]
+        label: self.settings.users[user_index],
+        clickable: false
       });
     } else {
       self.user_data[self.settings.users[user_index]].marker.setPosition({
