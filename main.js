@@ -672,7 +672,7 @@ function sortAndShowPokedex(sortOn, user_id) {
             '<br>Times Caught: ' +
             pkmnCap +
             '<br>Candy: ' +
-            pkmnCap +
+            candyNum +
             '</div>';
   }
   out += '</div>';
