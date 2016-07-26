@@ -13,7 +13,7 @@ var forts = [];
 var info_windows = [];
 var outArray = [];
 var numTrainers = [
-  177, 
+  177,
   109
 ];
 var teams = [
@@ -216,7 +216,7 @@ var trainerFunc = function(data, user_index) {
     }
   } else {
     pathcoords[users[user_index]].push({lat: parseFloat(data.lat), lng: parseFloat(data.lng)})
-  }  
+  }
   if (user_data[users[user_index]].hasOwnProperty('marker') === false) {
     buildTrainerList();
     addInventory();
@@ -489,7 +489,11 @@ function buildMenu(user_id, menu) {
               users[user_id] +
               '</h5><br>Level: ' +
               current_user_stats.level +
-              '<br>Exp: ' +
+              '<br><div class="progress" style="height: 10px"> <div class="determinate" style="width: '+
+              (current_user_stats.experience/
+              current_user_stats.next_level_xp) * 100 +
+              '%"></div></div>' +
+              'Exp: ' +
               current_user_stats.experience +
               '<br>Exp to Lvl ' +
               ( parseInt(current_user_stats.level, 10) + 1 ) +
@@ -514,7 +518,7 @@ function buildMenu(user_id, menu) {
               '<br>Kilometers Walked: ' +
               (parseFloat(current_user_stats.km_walked).toFixed(2) || 0) +
               '</div></div>';
-    
+
     document.getElementById('subcontent').innerHTML = out;
   }
   if (menu == 2) {
@@ -723,7 +727,7 @@ function sortAndShowPokedex(sortOn, user_id) {
             ' ' +
             pkmnName +
             '</b><br>Times Seen: ' +
-            pkmnEnc + 
+            pkmnEnc +
             '<br>Times Caught: ' +
             pkmnCap +
             '<br>Candy: ' +
