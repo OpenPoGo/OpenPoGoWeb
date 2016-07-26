@@ -1,7 +1,0 @@
-// MUST CONFIGURE THE USER ARRAY AND GOOGLE MAPS API KEY.
-// YOU CAN GET A KEY HERE: https://developers.google.com/maps/documentation/javascript/get-api-key
-var users = ["10revaer", "20revaer"];
-var userZoom = true;
-var userFollow = true;
-var imageExt = ".png";
-var gMapsAPIKey = "AIzaSyA3vzY1z8BLFXbc3sg9-vQTK5wYYe5VT3s";
