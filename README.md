@@ -10,6 +10,7 @@ $ git submodule foreach git pull origin master
 ```  
 
 In the event that there is nothing in your web folder and the above doesn't do anything run the following:  
+```
 $ cd OpenPoGoBot  
 $ git submodule init  
 $ git submodule update  
