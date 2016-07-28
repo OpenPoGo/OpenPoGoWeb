@@ -502,6 +502,8 @@ var mapView = {
         pkmIVA = pokemonData.individual_attack || 0,
         pkmIVD = pokemonData.individual_defense || 0,
         pkmIVS = pokemonData.individual_stamina || 0,
+        pkmHP = pokemonData.stamina || 0,
+        pkmMHP = pokemonData.stamina_max || 0,
         pkmIV = ((pkmIVA + pkmIVD + pkmIVS) / 45.0).toFixed(2),
         pkmTime = pokemonData.creation_time_ms || 0;
 
@@ -513,6 +515,8 @@ var mapView = {
         "attack": pkmIVA,
         "defense": pkmIVD,
         "stamina": pkmIVS,
+        "health": pkmHP,
+        "max_health": pkmMHP,
         "creation_time": pkmTime
       });
     }
@@ -573,20 +577,19 @@ var mapView = {
         pkmnIVA = sortedPokemon[i].attack,
         pkmnIVD = sortedPokemon[i].defense,
         pkmnIVS = sortedPokemon[i].stamina,
+        pkmnHP = sortedPokemon[i].health,
+        pkmnMHP = sortedPokemon[i].max_health,
         candyNum = self.getCandy(pkmnNum, user_id);
 
       out += '<div class="col s12 m6 l3 center"><img src="image/pokemon/' +
-        pkmnImage +
-        '" class="png_img"><br><b>' +
+        pkmnImage + '" class="png_img"><br><b>' +
         pkmnName +
-        '</b><br>' +
-        pkmnCP +
-        '<br>IV: ' +
-        pkmnIV +
-        '<br>A/D/S:' +
-        pkmnIVA + '/' + pkmnIVD + '/' + pkmnIVS +
-        '<br>Candy: ' +
-        candyNum +
+        '</b><br><div class="progress pkmn-progress pkmn-' + pkmnNum + '" style="height: 10px"> <div class="determinate pkmn-' + pkmnNum + '" style="width: ' + (pkmnHP / pkmnMHP) * 100 +'%"></div> </div>'+
+        'HP: ' + pkmnHP + ' / ' pkmnMHP +
+        '<br>CP: ' + pkmnCP +
+        '<br>IV: ' + pkmnIV +
+        '<br>A/D/S:' + pkmnIVA + '/' + pkmnIVD + '/' + pkmnIVS +
+        '<br>Candy: ' + candyNum +
         '</div>';
     }
     // Add number of eggs
