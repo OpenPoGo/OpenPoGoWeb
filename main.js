@@ -274,7 +274,7 @@ var catchSuccess = function(data, user_index) {
     if (data.latitude !== undefined) {
       if (user_data[users[user_index]].catchables.hasOwnProperty(data.spawnpoint_id) === false) {
         poke_name = pokemonArray[data.pokemon_id-1].Name;
-        log({message: poke_name+" appeared near trainder: " +users[user_index], color: "green-text"});
+        log({message: poke_name+" appeared near trainer: " +users[user_index], color: "green-text"});
         user_data[users[user_index]].catchables[data.spawnpoint_id] = new google.maps.Marker({
           map: map,
           position: {lat: parseFloat(data.latitude), lng: parseFloat(data.longitude)},
