@@ -5,5 +5,5 @@ var userInfo = {
 	userZoom: true,
 	zoom: 16,
 	userFollow: true,
-	gMapsAPIKey: "YOUR_API_KEY_HERE"
+	gMapsAPIKey: "AIzaSyB5OuKuUMBwMmPxdlrg38ZjR4c2t_K3UY0"
 };
