@@ -584,7 +584,7 @@ var mapView = {
       out += '<div class="col s12 m6 l3 center"><img src="image/pokemon/' +
         pkmnImage + '" class="png_img"><br><b>' +
         pkmnName +
-        '</b><br><div class="progress pkmn-progress pkmn-' + pkmnNum + '" style="height: 10px"> <div class="determinate pkmn-' + pkmnNum + '" style="width: ' + (pkmnHP / pkmnMHP) * 100 +'%"></div> </div>'+
+        '</b><br><div class="progress pkmn-progress pkmn-' + pkmnNum + '"> <div class="determinate pkmn-' + pkmnNum + '" style="width: ' + (pkmnHP / pkmnMHP) * 100 +'%"></div> </div>'+
         'HP: ' + pkmnHP + ' / ' + pkmnMHP +
         '<br>CP: ' + pkmnCP +
         '<br>IV: ' + pkmnIV +

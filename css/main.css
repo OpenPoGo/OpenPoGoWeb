@@ -254,6 +254,7 @@ html, body {
 	background-color: #EDBB99;
 }
 .pkmn-progress {
-	width: 80%;
-	margin: 0.2rem 0 0.5rem 0.9rem;
+	height: 8px;
+    max-width: 96px;
+    margin: 0 auto;
 }
