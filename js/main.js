@@ -126,7 +126,7 @@ var mapView = {
     var self = this;
     $('#switchPan').prop('checked', self.settings.userFollow);
     $('#switchZoom').prop('checked', self.settings.userZoom);
-    $('#strokeOn').prop('checked', false);
+    $('#strokeOn').prop('checked', self.settings.botPath);
 
     $('#switchPan').change(function() {
       if (this.checked) {
@@ -820,7 +820,7 @@ var mapView = {
     xhr.open('GET', path, true);
     xhr.send();
   },
-  
+
 /*
   loadJSON: function(path, success, error, successData) {
     $.getJSON({
@@ -835,7 +835,7 @@ var mapView = {
     });
   },
 */
-  
+
   // Adds events to log panel and if it's closed sends Toast
   log: function(log_object) {
     var currentDate = new Date();
