@@ -122,6 +122,14 @@ var mapView = {
       });
     });
   },
+  setBotPathOptions: function(checked) {
+      var self = this;
+      for (var i = 0; i < self.settings.users.length; i++) {
+        self.user_data[self.settings.users[i]].trainerPath.setOptions({
+          strokeOpacity: checked ? 1.0 : 0.0
+        });
+      }
+  },
   bindUi: function() {
     var self = this;
     $('#switchPan').prop('checked', self.settings.userFollow);
@@ -145,11 +153,8 @@ var mapView = {
     });
 
     $('#strokeOn').change(function() {
-      for (var i = 0; i < self.settings.users.length; i++) {
-        self.user_data[self.settings.users[i]].trainerPath.setOptions({
-          strokeOpacity: this.checked ? 1.0 : 0.0
-        });
-      }
+      self.settings.botPath = this.checked;
+      self.setBotPathOptions(this.checked);
     });
 
     $('#optionsButton').click(function() {
@@ -787,6 +792,7 @@ var mapView = {
       } else {
         self.user_data[self.settings.users[user_index]].trainerPath.setPath(self.pathcoords[self.settings.users[user_index]]);
       }
+      self.setBotPathOptions(self.settings.botPath);
     }
     if (self.settings.users.length === 1 && self.settings.userZoom === true) {
       self.map.setZoom(self.settings.zoom);
