@@ -585,7 +585,7 @@ var mapView = {
         pkmnImage + '" class="png_img"><br><b>' +
         pkmnName +
         '</b><br><div class="progress pkmn-progress pkmn-' + pkmnNum + '" style="height: 10px"> <div class="determinate pkmn-' + pkmnNum + '" style="width: ' + (pkmnHP / pkmnMHP) * 100 +'%"></div> </div>'+
-        'HP: ' + pkmnHP + ' / ' pkmnMHP +
+        'HP: ' + pkmnHP + ' / ' + pkmnMHP +
         '<br>CP: ' + pkmnCP +
         '<br>IV: ' + pkmnIV +
         '<br>A/D/S:' + pkmnIVA + '/' + pkmnIVD + '/' + pkmnIVS +
