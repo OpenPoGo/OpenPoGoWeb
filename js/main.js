@@ -274,10 +274,10 @@ var mapView = {
         break;
       case 2:
         var current_user_bag_items = self.user_data[self.settings.users[user_id]].bagItems;
-        $('#subtitle').html(current_user_bag_items.length + " item" + (current_user_bag_items.length !== 1 ? "s" : "") + " in Bag");
+       
 
         $('#sortButtons').html('');
-
+        var total = 0;
         out = '<div class="items"><div class="row">';
         for (var i = 0; i < current_user_bag_items.length; i++) {
           out += '<div class="col s12 m6 l3 center" style="float: left"><img src="image/items/' +
@@ -287,7 +287,9 @@ var mapView = {
             '</b><br>Count: ' +
             (current_user_bag_items[i].inventory_item_data.item.count || 0) +
             '</div>';
+          total = total + (current_user_bag_items[i].inventory_item_data.item.count || 0);
         }
+         $('#subtitle').html(total + " item" + (total !== 1 ? "s" : "") + " in Bag");
         out += '</div></div>';
         var nth = 0;
         out = out.replace(/<\/div><div/g, function (match, i, original) {
@@ -444,16 +446,16 @@ var mapView = {
       user = self.user_data[self.settings.users[user_id]];
 
     for (var i = 0; i < user.bagCandy.length; i++) {
-      var checkCandy = user.bagCandy[i].inventory_item_data.pokemon_family.family_id;
+      var checkCandy = user.bagCandy[i].inventory_item_data.candy.family_id;
       if (self.pokemoncandyArray[p_num] === checkCandy) {
-        return (user.bagCandy[i].inventory_item_data.pokemon_family.candy || 0);
+        return (user.bagCandy[i].inventory_item_data.candy.candy || 0);
       }
     }
   },
   invSuccess: function(data, user_index) {
     var self = mapView,
       userData = self.user_data[self.settings.users[user_index]],
-      bagCandy = self.filter(data, 'pokemon_family'),
+      bagCandy = self.filter(data, 'candy'),
       bagItems = self.filter(data, 'item'),
       bagPokemon = self.filter(data, 'pokemon_data'),
       pokedex = self.filter(data, 'pokedex_entry'),
@@ -611,7 +613,7 @@ var mapView = {
     out = '<div class="items"><div class="row">';
     for (var i = 0; i < user.pokedex.length; i++) {
       var pokedex_entry = user.pokedex[i].inventory_item_data.pokedex_entry,
-        pkmID = pokedex_entry.pokedex_entry_number,
+        pkmID = pokedex_entry.pokemon_id,
         pkmnName = self.pokemonArray[pkmID - 1].Name,
         pkmEnc = pokedex_entry.times_encountered,
         pkmCap = pokedex_entry.times_captured;
