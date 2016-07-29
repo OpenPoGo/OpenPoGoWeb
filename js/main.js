@@ -517,7 +517,8 @@ var mapView = {
         "stamina": pkmIVS,
         "health": pkmHP,
         "max_health": pkmMHP,
-        "creation_time": pkmTime
+        "creation_time": pkmTime,
+        'candy': self.getCandy(pkmID, user_id)
       });
     }
     switch (sortOn) {
@@ -560,6 +561,13 @@ var mapView = {
           return 0;
         });
         break;
+      case 'candy':
+        sortedPokemon.sort(function(a, b) {
+          if (a.candy > b.candy) return -1;
+          if (a.candy < b.candy) return 1;
+          return 0;
+        });
+        break;
       default:
         sortedPokemon.sort(function(a, b) {
           if (a.cp > b.cp) return -1;
@@ -585,11 +593,10 @@ var mapView = {
         pkmnImage + '" class="png_img"><br><b>' +
         pkmnName +
         '</b><br><div class="progress pkmn-progress pkmn-' + pkmnNum + '"> <div class="determinate pkmn-' + pkmnNum + '" style="width: ' + (pkmnHP / pkmnMHP) * 100 +'%"></div> </div>'+
-        'HP: ' + pkmnHP + ' / ' + pkmnMHP +
-        '<br>CP: ' + pkmnCP +
-        '<br>IV: ' + pkmnIV +
-        '<br>A/D/S:' + pkmnIVA + '/' + pkmnIVD + '/' + pkmnIVS +
-        '<br>Candy: ' + candyNum +
+        '<b>HP:</b> ' + pkmnHP + ' / ' + pkmnMHP +
+        '<br><b>IV:</b> ' + (pkmnIV >= 0.8 ? '<span style="color: #039be5">' + pkmnIV + '</span>' : pkmnIV) +
+        '<br><b>A/D/S:</b> ' + pkmnIVA + '/' + pkmnIVD + '/' + pkmnIVS +
+        '<br><b>Candy: </b>' + candyNum +
         '</div>';
     }
     // Add number of eggs

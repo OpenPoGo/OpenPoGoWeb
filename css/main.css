@@ -253,8 +253,10 @@ html, body {
 .botbar-13 {
 	background-color: #EDBB99;
 }
+
 .pkmn-progress {
-	height: 8px;
+    width: 80%;
+    height: 5px;
+    margin: 0.3rem auto;
     max-width: 96px;
-    margin: 0 auto;
 }
