@@ -805,22 +805,22 @@ var mapView = {
     }
   },
   loadJSON: function(path, success, error, successData) {
-    var xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = function() {
-      if (xhr.readyState === XMLHttpRequest.DONE) {
-        if (xhr.status === 200) {
-          if (success)
-            success(JSON.parse(xhr.responseText.replace(/\bNaN\b/g, 'null')), successData);
-        } else {
-          if (error)
-            error(xhr);
-        }
+  var xhr = new XMLHttpRequest();
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState === XMLHttpRequest.DONE) {
+      if (xhr.status === 200) {
+        if (success)
+          success(JSON.parse(xhr.responseText.replace(/\bNaN\b/g, 'null')), successData);
+      } else {
+        if (error)
+          error(xhr);
       }
-    };
-    xhr.open('GET', path, true);
-    xhr.send();
-  },
-  
+    }
+  };
+  xhr.open('GET', path + "?" + Date.now(), true);
+  xhr.send();
+},
+
 /*
   loadJSON: function(path, success, error, successData) {
     $.getJSON({
@@ -835,7 +835,6 @@ var mapView = {
     });
   },
 */
-  
   // Adds events to log panel and if it's closed sends Toast
   log: function(log_object) {
     var currentDate = new Date();
