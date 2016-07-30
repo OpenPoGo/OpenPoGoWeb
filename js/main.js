@@ -737,7 +737,7 @@ var mapView = {
               fortPoints = 'Points: ' + fort.gym_points;
               fortTeam = 'Team: ' + self.teams[fort.owned_by_team] + '<br>';
               fortType = 'Gym';
-              pokemonGuard = 'Guard Pokemon: ' + (self.pokemonArray[fort.guard_pokemon_id - 1].Name || "None") + '<br>';
+              pokemonGuard = 'Guard Pokemon: ' + (self.pokemonArray[fort.guard_pokemon_id - 1].Name || "None") + '<br>' + 'Level: ' + self.getGymLevel(fort.gym_points || 0) + '<br>';
             }
             var contentString = 'Id: ' + fort.id + '<br>Type: ' + fortType + '<br>' + pokemonGuard + fortPoints;
             self.info_windows[fort.id] = new google.maps.InfoWindow({
@@ -864,7 +864,18 @@ var mapView = {
     if (!$('#logs-panel').is(":visible")) {
       Materialize.toast(log_object.message, 3000);
     }
-  }
+  },
+  getGymLevel : function(gymPoints) {
+		var self = mapView;
+		var level = 1;
+		for (var myLevel in self.minimumPointsForLevel) {
+			var minimumPoints = self.minimumPointsForLevel[myLevel];
+			if (minimumPoints < gymPoints) {
+				var level = myLevel;
+			}
+		}
+		return level;
+	}
 };
 
 if (!String.prototype.format) {
