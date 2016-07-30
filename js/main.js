@@ -594,6 +594,9 @@ var mapView = {
     out += '<div class="col s12 m4 l3 center" style="float: left;"><img src="image/items/Egg.png" class="png_img"><br><b>You have ' + eggs + ' egg' + (eggs !== 1 ? "s" : "") + '</div>';
     for(var b=0; b<user.eggs.length; b++) {
       var incubator = user.eggs[b].inventory_item_data.egg_incubators.egg_incubator;
+      if (!incubator.item_id) {
+        var incubator = user.eggs[b].inventory_item_data.egg_incubators.egg_incubator[0];
+      }
       var current_user_stats = self.user_data[self.settings.users[user_id]].stats[0].inventory_item_data.player_stats;
       var totalToWalk  = incubator.target_km_walked - incubator.start_km_walked;
       var kmsLeft = incubator.target_km_walked - current_user_stats.km_walked;
