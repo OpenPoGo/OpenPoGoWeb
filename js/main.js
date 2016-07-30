@@ -112,6 +112,7 @@ var mapView = {
   init: function() {
     var self = this;
     self.settings = $.extend(true, self.settings, userInfo);
+    self.settings.zoom = self.settings.zoom || 16;
     self.bindUi();
 
     $.getScript('https://maps.googleapis.com/maps/api/js?key={0}&libraries=drawing'.format(self.settings.gMapsAPIKey), function() {
