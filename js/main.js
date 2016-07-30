@@ -2,7 +2,7 @@
 
 $(document).ready(function() {
   mapView.init();
-  var socket = io.connect('http://' + document.domain + ':' + location.port + '/event');
+  var socket = io.connect('http://' + document.domain + ':8000/event');
     socket.on('connect', function() {
       console.log('connected!');
     });
@@ -242,8 +242,8 @@ var mapView = {
           '</h5><br>Level: ' +
           current_user_stats.level +
           '<br><div class="progress botbar-' + user_id + '" style="height: 10px"> <div class="determinate bot-' + user_id + '" style="width: '+
-          (current_user_stats.experience/
-          current_user_stats.next_level_xp) * 100 +
+          (Number(current_user_stats.experience)/
+          Number(current_user_stats.next_level_xp)) * 100 +
           '%"></div></div>Exp: ' +
           current_user_stats.experience +
           '<br>Exp to Lvl ' +
@@ -274,19 +274,27 @@ var mapView = {
         break;
       case 2:
         var current_user_bag_items = self.user_data[self.settings.users[user_id]].bagItems;
-        $('#subtitle').html(current_user_bag_items.length + " item" + (current_user_bag_items.length !== 1 ? "s" : "") + " in Bag");
+        var bagCount = 0;
+
+        for (var i = 0; i < current_user_bag_items.length; i++) {
+          bagCount += (Number(current_user_bag_items[i].inventory_item_data.item.count) || 0);
+        }
+
+        $('#subtitle').html(bagCount + " item" + (bagCount !== 1 ? "s" : "") + " in Bag");
 
         $('#sortButtons').html('');
 
         out = '<div class="items"><div class="row">';
         for (var i = 0; i < current_user_bag_items.length; i++) {
-          out += '<div class="col s12 m6 l3 center" style="float: left"><img src="image/items/' +
-            current_user_bag_items[i].inventory_item_data.item.item_id +
-            '.png" class="item_img"><br><b>' +
-            self.itemsArray[current_user_bag_items[i].inventory_item_data.item.item_id] +
-            '</b><br>Count: ' +
-            (current_user_bag_items[i].inventory_item_data.item.count || 0) +
-            '</div>';
+          if ((current_user_bag_items[i].inventory_item_data.item.count || 0) > 0)
+            out += '<div class="col s12 m6 l3 center" style="float: left"><img src="image/items/' +
+              current_user_bag_items[i].inventory_item_data.item.item_id +
+              '.png" class="item_img"><br><b>' +
+              self.itemsArray[current_user_bag_items[i].inventory_item_data.item.item_id] +
+              '</b><br>Count: ' +
+              (current_user_bag_items[i].inventory_item_data.item.count || 0) +
+              '</div>';
+
         }
         out += '</div></div>';
         var nth = 0;
@@ -408,7 +416,7 @@ var mapView = {
     } else {
       if (user.catchables !== undefined && Object.keys(user.catchables).length > 0) {
         self.log({
-          message: "[" + self.settings.users[user_index] + "] " + poke_name + " has been caught or fled"
+          message: "[" + self.settings.users[user_index] + "] " + poke_name + " has been caught or fled "
         });
         for (var key in user.catchables) {
           user.catchables[key].setMap(null);
@@ -496,12 +504,12 @@ var mapView = {
         continue;
       }
       var pokemonData = user.bagPokemon[i].inventory_item_data.pokemon_data,
-        pkmID = pokemonData.pokemon_id,
+        pkmID = Number(pokemonData.pokemon_id),
         pkmnName = self.pokemonArray[pkmID - 1].Name,
-        pkmCP = pokemonData.cp,
-        pkmIVA = pokemonData.individual_attack || 0,
-        pkmIVD = pokemonData.individual_defense || 0,
-        pkmIVS = pokemonData.individual_stamina || 0,
+        pkmCP = Number(pokemonData.cp),
+        pkmIVA = Number(pokemonData.individual_attack) || 0,
+        pkmIVD = Number(pokemonData.individual_defense) || 0,
+        pkmIVS = Number(pokemonData.individual_stamina) || 0,
         pkmIV = ((pkmIVA + pkmIVD + pkmIVS) / 45.0).toFixed(2),
         pkmTime = pokemonData.creation_time_ms || 0;
 
@@ -611,10 +619,10 @@ var mapView = {
     out = '<div class="items"><div class="row">';
     for (var i = 0; i < user.pokedex.length; i++) {
       var pokedex_entry = user.pokedex[i].inventory_item_data.pokedex_entry,
-        pkmID = pokedex_entry.pokedex_entry_number,
+        pkmID = Number(pokedex_entry.pokedex_entry_number),
         pkmnName = self.pokemonArray[pkmID - 1].Name,
-        pkmEnc = pokedex_entry.times_encountered,
-        pkmCap = pokedex_entry.times_captured;
+        pkmEnc = Number(pokedex_entry.times_encountered),
+        pkmCap = Number(pokedex_entry.times_captured);
 
       sortedPokedex.push({
         "name": pkmnName,
@@ -758,14 +766,15 @@ var mapView = {
         message: "Trainer loaded: " + self.settings.users[user_index],
         color: "blue-text"
       });
-      var randomSex = Math.floor(Math.random() * 1);
+      //var randomSex = Math.floor(Math.random() * 1);
       self.user_data[self.settings.users[user_index]].marker = new google.maps.Marker({
         map: self.map,
         position: {
           lat: parseFloat(data.lat),
           lng: parseFloat(data.lng)
         },
-        icon: 'image/trainer/' + self.trainerSex[randomSex] + Math.floor(Math.random() * self.numTrainers[randomSex]) + '.png',
+        //icon: 'image/trainer/' + self.trainerSex[randomSex] + Math.floor(Math.random() * self.numTrainers[randomSex]) + '.png',
+        icon: 'image/trainer/m79.png',
         zIndex: 2,
         label: self.settings.users[user_index],
         clickable: false
@@ -840,7 +849,7 @@ var mapView = {
   log: function(log_object) {
     var currentDate = new Date();
     var time = ('0' + currentDate.getHours()).slice(-2) + ':' + ('0' + (currentDate.getMinutes())).slice(-2);
-    $("#logs-panel .card-content").append("<div class='log-item'>\
+    $("#logs-panel .card-content #logs").prepend("<div class='log-item'>\
   <span class='log-date'>" + time + "</span><p class='" + log_object.color + "'>" + log_object.message + "</p></div>");
     if (!$('#logs-panel').is(":visible")) {
       Materialize.toast(log_object.message, 3000);
