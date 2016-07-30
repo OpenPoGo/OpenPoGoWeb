@@ -463,6 +463,7 @@ var mapView = {
     userData.bagPokemon = bagPokemon;
     userData.pokedex = pokedex;
     userData.stats = stats;
+    userData.eggs = self.filter(data, 'egg_incubators');
     self.user_data[self.settings.users[user_index]] = userData;
   },
   pad_with_zeroes: function(number, length) {
@@ -590,7 +591,22 @@ var mapView = {
         '</div>';
     }
     // Add number of eggs
-    out += '<div class="col s12 m4 l3 center" style="float: left;"><img src="image/pokemon/Egg.png" class="png_img"><br><b>You have ' + eggs + ' egg' + (eggs !== 1 ? "s" : "") + '</div>';
+    out += '<div class="col s12 m4 l3 center" style="float: left;"><img src="image/items/Egg.png" class="png_img"><br><b>You have ' + eggs + ' egg' + (eggs !== 1 ? "s" : "") + '</div>';
+    for(var b=0; b<user.eggs.length; b++) {
+      var incubator = user.eggs[b].inventory_item_data.egg_incubators.egg_incubator;
+      var current_user_stats = self.user_data[self.settings.users[user_id]].stats[0].inventory_item_data.player_stats;
+      var totalToWalk  = incubator.target_km_walked - incubator.start_km_walked;
+      var kmsLeft = incubator.target_km_walked - current_user_stats.km_walked;
+      var walked = totalToWalk - kmsLeft;
+      var eggString = (parseFloat(walked).toFixed(1) || 0) + "/" + (parseFloat(totalToWalk).toFixed(1) || 0) + "km";
+      if (incubator.item_id == 902) {
+        var img = 'EggIncubator';
+      } else {
+        var img = 'EggIncubatorUnlimited';
+      }
+      out += '<div class="col s12 m4 l3 center" style="float: left;"><img src="image/items/' + img + '.png" class="png_img"><br>';
+      out += eggString;
+    }
     out += '</div></div>';
     var nth = 0;
     out = out.replace(/<\/div><div/g, function (match, i, original) {
