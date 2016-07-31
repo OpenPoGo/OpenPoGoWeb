@@ -18,6 +18,7 @@ $(document).ready(function() {
 
 var mapView = {
   map: [],
+  lastClickLocation: null,
   user_index: 0,
   emptyDex: [],
   forts: [],
@@ -230,16 +231,17 @@ var mapView = {
       },
       zoom: 8,
       mapTypeId: 'roadmap',
-      styles: [ 
+      styles: [
         { "featureType": "road", "elementType": "geometry.fill", "stylers": [ { "color": "#4f9f92" }, { "visibility": "on" } ] },
         { "featureType": "water", "elementType": "geometry.stroke", "stylers": [ { "color": "#feff95" }, { "visibility": "on" }, { "weight": 1.2 } ] },
         { "featureType": "landscape", "elementType": "geometry", "stylers": [ { "color": "#adff9d" }, { "visibility": "on" } ] },
         { "featureType": "water", "stylers": [ { "visibility": "on" }, { "color": "#147dd9" } ] },
-        { "featureType": "poi", "elementType": "geometry.fill", "stylers": [ { "color": "#d3ffcc" } ] },{ "elementType": "labels", "stylers": [ { "visibility": "off" } ] } 
+        { "featureType": "poi", "elementType": "geometry.fill", "stylers": [ { "color": "#d3ffcc" } ] },{ "elementType": "labels", "stylers": [ { "visibility": "off" } ] }
       ]
     });
     self.placeTrainer();
     self.addCatchable();
+    self.buildContextMenu();
     setInterval(self.updateTrainer, 1000);
     setInterval(self.addCatchable, 1000);
     setInterval(self.addInventory, 5000);
@@ -249,6 +251,31 @@ var mapView = {
     for (var i = 0; i < self.settings.users.length; i++) {
       self.loadJSON('catchable-' + self.settings.users[i] + '.json', self.catchSuccess, self.errorFunc, i);
     }
+  },
+  buildContextMenu: function () {
+    var self = this;
+    google.maps.event.addListener(self.map, 'rightclick', function(event) {
+      self.lastClickLocation = event.latLng;
+      $('#map').contextMenu({ x: event.pixel.x, y: event.pixel.y });
+    });
+    google.maps.event.addListener(self.map, 'click', function(event) {
+      $('#map').contextMenu('hide');
+    });
+    $.contextMenu({
+      selector: '#map',
+      items: {
+        copyLoc: {
+          name: "Copy location",
+          icon: 'copy',
+          callback: function() {
+            if (!self.lastClickLocation) return;
+            var locString = self.lastClickLocation.lat() + ', ' + self.lastClickLocation.lng();
+            clipboard.copy(locString);
+            console.log('copied location: ', locString);
+          }
+        }
+      }
+    });
   },
   addInventory: function() {
     var self = mapView;
