@@ -1,0 +1,70 @@
+div#players header {
+display:table;
+width:100%;
+background:#555;
+color:#fff;
+}
+
+div#players .items {
+height:auto;
+}
+
+div#players header > *{
+display:table-cell;
+padding:4px;
+}
+div#players header > *:first-child {
+ width:25%;
+}
+
+div#players div.eggs {
+background-color:#eee;
+padding:.1rem 0.5rem;
+}
+div#players div.eggs img {
+vertical-align:middle;
+ 
+}
+div#players div.eggs > *{ 
+display:inline-block;
+}
+div#players div.eggs:after {
+content: " ";
+display:block;
+clear:right;
+}
+div#players div.eggs img {
+ width:24px;
+}
+
+div#players section {
+border-radius:3px;
+background-color:#ddd;
+padding:2px 4px;
+display:table;
+text-align:left;
+width:100%;
+white-space: nowrap;
+}
+
+div#players .col.m6 {
+width: 130px;
+padding:1px;
+font-size:11px;
+margin:0;
+box-sizing:border-box;
+}
+
+div#players .col.m6 section > b {
+display: table-cell;
+width:33%;
+}
+div#players .col.m6 section > span
+ {
+display: table-cell;
+text-align:right;
+}
+
+div#players .col.m6 img {
+width:16px !important;
+}
