@@ -97,6 +97,7 @@ sortAndShowBagPokemon: function(sortOn, user_id) {
     if (!user.bagPokemon.length) return;
 
     out = '<div class="items"><div class="row">';
+    self.eggs=0;
     for (var i = 0; i < user.bagPokemon.length; i++) {
       if (user.bagPokemon[i].inventory_item_data.pokemon_data.is_egg) {
         self.eggs++;
