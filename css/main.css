@@ -264,3 +264,12 @@ html, body {
     margin: 0.3rem auto;
     max-width: 96px;
 }
+.rounded {
+    height: auto;
+    width: 25%;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+    border-radius: 50%;
+}

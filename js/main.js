@@ -876,7 +876,8 @@ var mapView = {
               fortType = 'PokeStop',
               pokemonGuard = '';
             if (fort.guard_pokemon_id != undefined) {
-              fortPoints = 'Points: ' + fort.gym_points;
+              var id = self.createID();
+              fortPoints = 'Points: ' + fort.gym_points + '<br><center><a class="waves-effect waves-light btn" style="margin-bottom:4%;" id="gymInfo-' + id + '">More Info</a></center>';
               fortTeam = 'Team: ' + self.teams[fort.owned_by_team] + '<br>';
               fortType = 'Gym';
               pokemonGuard = 'Guard Pokemon: ' + (self.pokemonArray[fort.guard_pokemon_id - 1].Name || "None") + '<br>' + 'Level: ' + self.getGymLevel(fort.gym_points || 0) + '<br>';
@@ -891,6 +892,11 @@ var mapView = {
                 infowindow.open(map, marker);
               };
             })(self.forts[fort.id], contentString, self.info_windows[fort.id]));
+            if(fort.guard_pokemon_id != undefined) {
+              $('body').on('click', "#gymInfo-" + id +"", {extra:fort}, function(event) {
+                self.showGymInfo(JSON.stringify($(event.data.extra)));
+              });
+            }
           }
         }
       }
@@ -960,6 +966,53 @@ var mapView = {
       });
     }
   },
+  showGymInfo: function(fort_json) {
+    var self = mapView;
+    $("#submenu").toggle();
+    var fort_object = JSON.parse(fort_json)[0];
+    $('#subtitle').html('GYM: ' + fort_object.gym_details.name);
+    $('#sortButtons').html('');
+	
+    var users = fort_object.gym_details.gym_state.memberships;
+    var out = '<div class="items"><center><img src="' + fort_object.gym_details.urls[0] + '" class="rounded"><br>';
+    out += fort_object.gym_details.description || "No description available";
+    out += '<hr>';
+    out += '<div class="row">';
+    for(var i = 0; i < users.length; i++) {
+      var user = users[i];
+      var pokemonData = user.pokemon_data,
+        trainerData = user.trainer_public_profile,
+        pkmID = pokemonData.pokemon_id,
+        pkmnName = self.pokemonArray[pkmID - 1].Name,
+        pkmCP = pokemonData.cp,
+        pkmnImage = self.pad_with_zeroes(pkmID, 3) + '.png',
+        pkmIVA = pokemonData.individual_attack || 0,
+        pkmIVD = pokemonData.individual_defense || 0,
+        pkmIVS = pokemonData.individual_stamina || 0,
+        pkmHP = pokemonData.stamina || 0,
+        pkmMHP = pokemonData.stamina_max || 0,
+        pkmIV = ((pkmIVA + pkmIVD + pkmIVS) / 45.0).toFixed(2),
+        trainerLevel = trainerData.level || 1,
+        trainerName = trainerData.name;
+      out += '<div class="col s12 m6 l3 center"><img src="image/pokemon/' + pkmnImage + '" class="png_img">';
+      out += '<br><b>' +pkmnName +'</b><br>';
+      out += '<div class="progress pkmn-progress pkmn-' + pkmID + '">';
+      out += '<div class="determinate pkmn-' + pkmID + '" style="width: ' + (pkmHP / pkmMHP) * 100 + '%"></div> </div>';
+      out += '<b>HP:</b> ' + pkmHP + ' / ' + pkmMHP;
+      out += '<br><b>CP:</b> ' + pkmCP;
+      out += '<br><b>IV:</b> ' + (pkmIV >= 0.8 ? '<span style="color: #039be5">' + pkmIV + '</span>' : pkmIV);
+      out += '<br><b>A/D/S:</b> ' + pkmIVA + '/' + pkmIVD + '/' + pkmIVS;
+      out += '<br><b>Trainer Name: </b>' + trainerName;
+      out += '<br><b>Trainer Level: </b>' + trainerLevel + '</div>';
+    }
+    out += '</div></div>';
+    var nth = 0;
+    out = out.replace(/<\/div><div/g, function (match, i, original) {
+      nth++;
+      return (nth % 4 === 0) ? '</div></div><div class="row"><div' : match;
+    });
+    $('#subcontent').html(out);
+  },
   updateTrainer: function() {
     var self = mapView;
     for (var i = 0; i < self.settings.users.length; i++) {
@@ -1018,7 +1071,16 @@ var mapView = {
 			}
 		}
 		return level;
-	}
+	},
+  createID : function(){
+    var text = "";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+    for( var i=0; i < 5; i++ )
+		text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+    return text;
+  }
 };
 
 if (!String.prototype.format) {
