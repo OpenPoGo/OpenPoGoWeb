@@ -1,3 +1,4 @@
+
 div#players header {
 display:table;
 width:100%;
@@ -29,12 +30,15 @@ div#players div.eggs > *{
 display:inline-block;
 }
 div#players div.eggs:after {
-content: " ";
+c≠≠ontent: " ";
 display:block;
 clear:right;
 }
 div#players div.eggs img {
  width:24px;
+}
+div#players div.sortby {
+padding:0.5rem;
 }
 
 div#players section {
@@ -47,12 +51,44 @@ width:100%;
 white-space: nowrap;
 }
 
-div#players .col.m6 {
+div#players .col {
 width: 130px;
 padding:1px;
 font-size:11px;
 margin:0;
 box-sizing:border-box;
+}
+
+
+@media(min-width:1024px) {
+  div#players .col {
+	width:12.5%;
+  }
+}
+
+@media(max-width:1024px) {
+  div#players .col {
+	width:20%;
+  }
+}
+
+@media(max-width:800px) {
+  div#players .col {
+	width:25%;
+  }
+}
+
+
+@media(max-width:640px) {
+  div#players .col {
+	width:33%;
+  }
+}
+
+@media(max-width:520px) {
+  div#players .col {
+	width:50%;
+  }
 }
 
 div#players .col.m6 section > b {
