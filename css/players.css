@@ -30,7 +30,7 @@ div#players div.eggs > *{
 display:inline-block;
 }
 div#players div.eggs:after {
-c≠≠ontent: " ";
+content: " ";
 display:block;
 clear:right;
 }
