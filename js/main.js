@@ -702,8 +702,8 @@ var mapView = {
         pkmnHP = sortedPokemon[i].health,
         pkmnMHP = sortedPokemon[i].max_health,
         candyNum = self.getCandy(pkmnNum, user_id),
-		pkmnDate = timeConverter(sortedPokemon[i].creation_time)
-		;
+	pkmnDate = timeConverter(sortedPokemon[i].creation_time)
+	;
 
       out += '<div class="col s12 m6 l3 left"><img src="image/pokemon/' +
         pkmnImage + '" class="png_img"><br><b>' +
