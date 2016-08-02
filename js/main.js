@@ -319,7 +319,7 @@ var mapView = {
 
         var xps = '';
         if ((user_id in self.user_xps) && self.user_xps[user_id].length) {
-            var xp_first = self.user_xps[user_id][0]
+            var xp_first = self.user_xps[user_id][0];
             var xp_last = self.user_xps[user_id][self.user_xps[user_id].length-1];
             var d_xp = xp_last.xp - xp_first.xp;
             var d_t = xp_last.t - xp_first.t;
