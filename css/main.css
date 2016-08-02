@@ -259,8 +259,9 @@ html, body {
 }
 
 .pkmn-progress {
-    width: 80%;
+	width: 80%;
     height: 5px;
-    margin: 0.3rem auto;
+    margin: auto;
+	margin-left: 0;
     max-width: 96px;
 }
