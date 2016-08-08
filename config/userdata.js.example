@@ -7,5 +7,6 @@ var userInfo = {
 	userFollow: true,
 	gMapsAPIKey: "YOUR_API_KEY_HERE",
 	botPath: true,
-	actionsEnabled: false
+	actionsEnabled: false,
+	pushEnabled: true
 };
