@@ -480,7 +480,6 @@ var mapView = {
             message: "[" + self.settings.users[user_index] + "] " + poke_name + " appeared",
             color: "green-text"
           });
-          self.notify( 'Pokemon status', poke_name + ' appeared' );
           user.catchables[data.spawnpoint_id] = new google.maps.Marker({
             map: self.map,
             position: {
