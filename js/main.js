@@ -271,7 +271,6 @@ var mapView = {
             if (!self.lastClickLocation) return;
             var locString = self.lastClickLocation.lat() + ', ' + self.lastClickLocation.lng();
             clipboard.copy(locString);
-            console.log('copied location: ', locString);
           }
         }
       }
