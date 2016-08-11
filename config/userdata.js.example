@@ -6,5 +6,12 @@ var userInfo = {
 	zoom: 16,
 	userFollow: true,
 	gMapsAPIKey: "YOUR_API_KEY_HERE",
-	botPath: true
+	botPath: true,
+	actionsEnabled: false
+};
+//milliseconds
+var dataUpdates = {
+    updateTrainer: 1000,
+    addCatchable: 1000,
+    addInventory: 5000
 };
