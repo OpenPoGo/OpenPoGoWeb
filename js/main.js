@@ -2,6 +2,17 @@
 
 var socket_io;
 var pokemonActions;
+function timeConverter(UNIX_timestamp){
+  var a = new Date(UNIX_timestamp);
+  var year = a.getFullYear();
+  var month = a.getMonth() + 1;
+  var date = a.getDate();
+  var hour = a.getHours();
+  var min = a.getMinutes();
+  var sec = a.getSeconds();
+  var time = ('0' + date).slice(-2) + '-' + ('0' + month).slice(-2) + '-' + year + ' ' + hour + ':' + min + ':' + sec ;
+  return time;
+}
 
 $(document).ready(function() {
   mapView.init();
@@ -690,9 +701,11 @@ var mapView = {
         pkmnIVS = sortedPokemon[i].stamina,
         pkmnHP = sortedPokemon[i].health,
         pkmnMHP = sortedPokemon[i].max_health,
-        candyNum = self.getCandy(pkmnNum, user_id);
+        candyNum = self.getCandy(pkmnNum, user_id),
+	pkmnDate = timeConverter(sortedPokemon[i].creation_time)
+	;
 
-      out += '<div class="col s12 m6 l3 center"><img src="image/pokemon/' +
+      out += '<div class="col s12 m6 l3 left"><img src="image/pokemon/' +
         pkmnImage + '" class="png_img"><br><b>' +
         pkmnName +
         '</b><br><div class="progress pkmn-progress pkmn-' + pkmnNum + '"> <div class="determinate pkmn-' + pkmnNum + '" style="width: ' + (pkmnHP / pkmnMHP) * 100 +'%"></div> </div>'+
@@ -700,7 +713,7 @@ var mapView = {
         '<br><b>CP:</b>' + pkmnCP +
         '<br><b>IV:</b> ' + (pkmnIV >= 0.8 ? '<span style="color: #039be5">' + pkmnIV + '</span>' : pkmnIV) +
         '<br><b>A/D/S:</b> ' + pkmnIVA + '/' + pkmnIVD + '/' + pkmnIVS +
-        '<br><b>Candy: </b>' + candyNum
+        '<br><b>Candy: </b>' + candyNum + '<br><b>Date: </b>' + pkmnDate
         ;
 
       if(Object.keys(pokemonActions).length){
