@@ -931,7 +931,7 @@ var mapView = {
               fortType = 'Gym';
               pokemonGuard = 'Guard Pokemon: ' + (self.pokemonArray[fort.guard_pokemon_id - 1].Name || "None") + '<br>' + 'Level: ' + self.getGymLevel(fort.gym_points || 0) + '<br>';
             }
-            var contentString = 'Id: ' + fort.id + '<br>Type: ' + fortType + '<br>' + pokemonGuard + fortPoints;
+            var contentString = 'Id: ' + fort.id + '<br>LatLon: ' + fort.latitude + ', ' + fort.longitude + '<br>Type: ' + fortType + '<br>' + pokemonGuard + fortPoints;
             self.info_windows[fort.id] = new google.maps.InfoWindow({
               content: contentString
             });
