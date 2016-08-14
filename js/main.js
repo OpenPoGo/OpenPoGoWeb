@@ -161,6 +161,15 @@ var mapView = {
     '1002': 'Item Storage Upgrade'
   },
   settings: {},
+  mapStyles: {
+    pokemonGo: [
+      { "featureType": "road", "elementType": "geometry.fill", "stylers": [ { "color": "#4f9f92" }, { "visibility": "on" } ] },
+      { "featureType": "water", "elementType": "geometry.stroke", "stylers": [ { "color": "#feff95" }, { "visibility": "on" }, { "weight": 1.2 } ] },
+      { "featureType": "landscape", "elementType": "geometry", "stylers": [ { "color": "#adff9d" }, { "visibility": "on" } ] },
+      { "featureType": "water", "stylers": [ { "visibility": "on" }, { "color": "#147dd9" } ] },
+      { "featureType": "poi", "elementType": "geometry.fill", "stylers": [ { "color": "#d3ffcc" } ] },{ "elementType": "labels", "stylers": [ { "visibility": "off" } ] }
+    ]
+  },
   init: function() {
     var self = this;
     self.settings = $.extend(true, self.settings, userInfo, dataUpdates);
@@ -282,13 +291,7 @@ var mapView = {
       },
       zoom: 8,
       mapTypeId: 'roadmap',
-      styles: [
-        { "featureType": "road", "elementType": "geometry.fill", "stylers": [ { "color": "#4f9f92" }, { "visibility": "on" } ] },
-        { "featureType": "water", "elementType": "geometry.stroke", "stylers": [ { "color": "#feff95" }, { "visibility": "on" }, { "weight": 1.2 } ] },
-        { "featureType": "landscape", "elementType": "geometry", "stylers": [ { "color": "#adff9d" }, { "visibility": "on" } ] },
-        { "featureType": "water", "stylers": [ { "visibility": "on" }, { "color": "#147dd9" } ] },
-        { "featureType": "poi", "elementType": "geometry.fill", "stylers": [ { "color": "#d3ffcc" } ] },{ "elementType": "labels", "stylers": [ { "visibility": "off" } ] }
-      ]
+      styles: ((self.settings.usePokemonGoMapStyle || self.settings.usePokemonGoMapStyle === undefined) ? self.mapStyles.pokemonGo : []) // disable Pokemon Go map style only when explicitly instructed to
     });
     self.placeTrainer();
     self.addCatchable();
