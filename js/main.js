@@ -203,6 +203,16 @@ var mapView = {
     $('#switchPan').prop('checked', self.settings.userFollow);
     $('#switchZoom').prop('checked', self.settings.userZoom);
     $('#strokeOn').prop('checked', self.settings.botPath);
+    $('#pushOn').prop('checked', self.settings.pushEnabled);
+
+    $('#pushOn').change(function() {
+      self.settings.pushEnabled = this.checked;
+      if (this.checked && Notification.permission !== "granted" ) {
+          Notification.requestPermission();
+      } else {
+        self.settings.pushEnabled = false;
+      }
+    });
 
     $('#switchPan').change(function() {
       if (this.checked) {
@@ -548,6 +558,7 @@ var mapView = {
         self.log({
           message: "[" + self.settings.users[user_index] + "] " + poke_name + " has been caught or fled"
         });
+        self.notify( 'Pokemon status', poke_name + ' caught (or fled)' );
         for (var key in user.catchables) {
           user.catchables[key].setMap(null);
         }
@@ -1080,7 +1091,33 @@ var mapView = {
 			}
 		}
 		return level;
-	}
+  },
+  notify: function(title, message) {
+    var self = this;
+    // Only show notification if enabled
+    if (self.settings.pushEnabled && Notification.permission == "granted") {
+
+      // Bind notification
+      self.settings.notification = new Notification(title, {
+        body: message
+      });
+
+      // Bind onclick event
+      self.settings.notification.onclick(function() {
+        window.open(window.location.href);
+      });
+
+    } else {
+      console.log( 'Notification: ' + title + ' with message:"' + message + '" has not been send to the client.');
+      console.log( 'Reason: ' );
+      if( !self.settings.pushEnabled ) {
+        console.log( 'Push is not enabled' );
+      } else if (Notification.permission !== 'granted') {
+        console.log( 'Push is not permitted' );
+      }
+    }
+
+  }
 };
 
 if (!String.prototype.format) {
