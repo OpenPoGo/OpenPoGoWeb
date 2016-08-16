@@ -426,7 +426,8 @@ var mapView = {
         sortButtons += '<div class="chip"><a href="#" data-sort="cp">CP</a></div>';
         sortButtons += '<div class="chip"><a href="#" data-sort="iv">IV</a></div>';
         sortButtons += '<div class="chip"><a href="#" data-sort="name">Name</a></div>';
-        sortButtons += '<div class="chip"><a href="#" data-sort="id">ID</a></div>';
+        sortButtons += '<div class="chip"><a href="#" data-sort="id/cp">ID/CP</a></div>';
+        sortButtons += '<div class="chip"><a href="#" data-sort="id/iv">ID/IV</a></div>';
         sortButtons += '<div class="chip"><a href="#" data-sort="time">Time</a></div>';
         sortButtons += '<div class="chip"><a href="#" data-sort="candy">Candy</a></div>';
         sortButtons += '</div>';
@@ -683,12 +684,21 @@ var mapView = {
           return 0;
         });
         break;
-      case 'id':
+      case 'id/cp':
         sortedPokemon.sort(function(a, b) {
           if (a.id < b.id) return -1;
           if (a.id > b.id) return 1;
           if (a.cp > b.cp) return -1;
           if (a.cp < b.cp) return 1;
+          return 0;
+        });
+        break;
+      case 'id/iv':
+        sortedPokemon.sort(function(a, b) {
+          if (a.id < b.id) return -1;
+          if (a.id > b.id) return 1;
+          if (a.iv > b.iv) return -1;
+          if (a.iv < b.iv) return 1;
           return 0;
         });
         break;
