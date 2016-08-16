@@ -2,21 +2,24 @@
 
 var socket_io;
 var pokemonActions;
+var routePlannerPoints = [];
+var routePlannerPaths = [];
+var recordingPoints = false;
 
 $(document).ready(function() {
   mapView.init();
   socket_io = io.connect('http://' + document.domain + ':' + location.port + '/event');
-    socket_io.on('connect', function() {
-      console.log('connected!');
-    });
-    socket_io.on('logging', function(msg) {
-      for(var i = 0; i < msg.length; i++) {
-        mapView.log({
-          message: msg[i].output,
-          color: msg[i].color + "-text"
-        });
-      }
-    });
+  socket_io.on('connect', function() {
+    console.log('connected!');
+  });
+  socket_io.on('logging', function(msg) {
+    for(var i = 0; i < msg.length; i++) {
+      mapView.log({
+        message: msg[i].output,
+        color: msg[i].color + "-text"
+      });
+    }
+  });
 
     pokemonActions = function(socket_io){
         var actions = {
@@ -272,6 +275,23 @@ var mapView = {
       self.sortAndShowPokedex(item.data('sort'), item.parent().parent().data('user-id'));
     });
 
+    $('#start-recording-button').click(function(){
+      recordingPoints = true;
+    });
+
+    $('#stop-recording-button').click(function(){
+      recordingPoints = false;
+      self.buildRoutePlannerMenu();
+    });
+
+    $('#undo-button').click(function(){
+      var lastRoutePoint = routePlannerPoints[routePlannerPoints.length - 1];
+      if(lastRoutePoint.path){
+        lastRoutePoint.path.setMap(null);
+      }
+      routePlannerPoints.pop();
+    });
+
   },
   initMap: function() {
     var self = this;
@@ -453,6 +473,23 @@ var mapView = {
       default:
         break;
     }
+  },
+  buildRoutePlannerMenu: function() {
+    var self = this,
+      out = '';
+    $("#submenu").show();
+    $('#subtitle').html('Planned Route');
+    var pointsArray = [];
+    $.each(routePlannerPoints, function(index, value){
+      pointsArray[index] = '{ "location" : "'+value.lat+ ', '+value.lng+'"}';
+      if(routePlannerPoints[index].path){
+        routePlannerPoints[index].path.setMap(null);
+      }
+    });
+    var arrayJSON = pointsArray.toString();
+    var subcontent = "<p>Copy and paste this content into your path config file.</p><br/><textarea  onclick='this.focus();this.select()'>["+arrayJSON+"]</textarea>";
+    $('#subcontent').html(subcontent);
+    routePlannerPoints = [];
   },
   buildTrainerList: function() {
     var self = this,
@@ -931,14 +968,41 @@ var mapView = {
               fortType = 'Gym';
               pokemonGuard = 'Guard Pokemon: ' + (self.pokemonArray[fort.guard_pokemon_id - 1].Name || "None") + '<br>' + 'Level: ' + self.getGymLevel(fort.gym_points || 0) + '<br>';
             }
-            var contentString = 'Id: ' + fort.id + '<br>Type: ' + fortType + '<br>' + pokemonGuard + fortPoints;
+            var contentString = 'Id: ' + fort.id + '<br>Type: ' + fortType + '<br>Latitude: ' + fort.latitude + '<br>Longitude: ' + fort.longitude + '<br>' + pokemonGuard + fortPoints;
             self.info_windows[fort.id] = new google.maps.InfoWindow({
               content: contentString
             });
             google.maps.event.addListener(self.forts[fort.id], 'click', (function(marker, content, infowindow) {
               return function() {
-                infowindow.setContent(content);
-                infowindow.open(map, marker);
+                if(!recordingPoints){
+                  infowindow.setContent(content);
+                  infowindow.open(map, marker);
+                } else {
+                  var markerLatitude = this.position.lat();
+                  var markerLongitude = this.position.lng();
+                  if(routePlannerPoints.length >= 1){
+                    var path = [
+                      {
+                        lat: routePlannerPoints[routePlannerPoints.length - 1].lat,
+                        lng: routePlannerPoints[routePlannerPoints.length - 1].lng
+                      },
+                      {
+                        lat: markerLatitude,
+                        lng: markerLongitude
+                      },
+                    ];
+                    var routePlannerPath = new google.maps.Polyline({
+                      map: self.map,
+                      path: path,
+                      geodisc: true,
+                      strokeColor: self.pathColors[12],
+                      strokeWeight: 2
+                    });
+                    routePlannerPoints.push({lat: markerLatitude, lng: markerLongitude, path: routePlannerPath});
+                  } else {
+                    routePlannerPoints.push({lat: markerLatitude, lng: markerLongitude});
+                  }
+                }
               };
             })(self.forts[fort.id], contentString, self.info_windows[fort.id]));
           } else {
