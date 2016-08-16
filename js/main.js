@@ -656,7 +656,8 @@ var mapView = {
         pkmHP = pokemonData.stamina || 0,
         pkmMHP = pokemonData.stamina_max || 0,
         pkmIV = ((pkmIVA + pkmIVD + pkmIVS) / 45.0).toFixed(2),
-        pkmTime = pokemonData.creation_time_ms || 0;
+        pkmTime = pokemonData.creation_time_ms || 0,
+        pkmDeployed = ((pokemonData.deployed_fort_id) ? 1 : null);
 
       sortedPokemon.push({
         "name": pkmnName,
@@ -670,7 +671,8 @@ var mapView = {
         "health": pkmHP,
         "max_health": pkmMHP,
         "creation_time": pkmTime,
-        'candy': self.getCandy(pkmID, user_id)
+        'candy': self.getCandy(pkmID, user_id),
+        "deployed": pkmDeployed
       });
     }
     switch (sortOn) {
@@ -740,11 +742,13 @@ var mapView = {
         pkmnIVS = sortedPokemon[i].stamina,
         pkmnHP = sortedPokemon[i].health,
         pkmnMHP = sortedPokemon[i].max_health,
-        candyNum = self.getCandy(pkmnNum, user_id);
+        candyNum = self.getCandy(pkmnNum, user_id),
+        isDeployed = sortedPokemon[i].deployed;
 
-      out += '<div class="col s12 m6 l3 center"><img src="image/pokemon/' +
-        pkmnImage + '" class="png_img"><br><b>' +
-        pkmnName +
+      out += '<div class="col s12 m6 l3 center"><img src="image/pokemon/' + pkmnImage + '" class="png_img"><br><b>';
+      if(isDeployed)
+        out += '<img src="image/forts/teamLess.png" class="pkmn-deployed">';
+      out += pkmnName +
         '</b><br><div class="progress pkmn-progress pkmn-' + pkmnNum + '"> <div class="determinate pkmn-' + pkmnNum + '" style="width: ' + (pkmnHP / pkmnMHP) * 100 +'%"></div> </div>'+
         '<b>HP:</b> ' + pkmnHP + ' / ' + pkmnMHP +
         '<br><b>CP:</b>' + pkmnCP +

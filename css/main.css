@@ -265,3 +265,8 @@ html, body {
     margin: 0.3rem auto;
     max-width: 96px;
 }
+
+.pkmn-deployed {
+	width: 18px;
+	margin-left: -18px;
+}
