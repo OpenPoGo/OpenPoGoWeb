@@ -925,13 +925,27 @@ var mapView = {
               fortTeam = '',
               fortType = 'PokeStop',
               pokemonGuard = '';
-            if (fort.guard_pokemon_id != undefined) {
-              fortPoints = 'Points: ' + fort.gym_points;
-              fortTeam = 'Team: ' + self.teams[fort.owned_by_team] + '<br>';
-              fortType = 'Gym';
-              pokemonGuard = 'Guard Pokemon: ' + (self.pokemonArray[fort.guard_pokemon_id - 1].Name || "None") + '<br>' + 'Level: ' + self.getGymLevel(fort.gym_points || 0) + '<br>';
+            var members = '<b>Level</b>: ' + self.getGymLevel(fort.gym_points || 0);
+            if ('gym_details' in fort) {
+                if ('gym_state' in fort.gym_details) {
+                    fortType = 'Gym';
+                    fortPoints = '<b>Points</b>: ' + fort.gym_points + '<br/>';
+                    fortTeam = '<b>Team</b>: ' + self.teams[fort.owned_by_team] + '<br/>';
+                    if ('memberships' in fort.gym_details.gym_state) {
+                        members += ' with <b>Members</b>:<br>';
+                        for (var k in fort.gym_details.gym_state.memberships) {
+                            var entry = fort.gym_details.gym_state.memberships[k];
+                            var trainer = entry.trainer_public_profile;
+                            var pokemon = entry.pokemon_data;
+
+                            members += '* '+trainer.name+' (lvl '+trainer.level+') with a ';
+                            members += self.pokemonArray[pokemon.pokemon_id-1].Name+' CP'+pokemon.cp;
+                            members += '<br/>';
+                        }
+                    }
+                }
             }
-            var contentString = 'Id: ' + fort.id + '<br>Type: ' + fortType + '<br>' + pokemonGuard + fortPoints;
+            var contentString = '<b>Id</b>: ' + fort.id + '<br><b>Type</b>: ' + fortType + '<br>' + members + fortPoints + fortTeam;
             self.info_windows[fort.id] = new google.maps.InfoWindow({
               content: contentString
             });
